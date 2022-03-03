@@ -13,12 +13,12 @@ services:
       - '3000:3000'
     depends_on:
       - seedhub-api
-      - seedhub-database
-  seedhub-api:
-    build: seedhub-api
-    command: ["./hello-world"]
-    depends_on:
-      - seedhub-database
+      # - seedhub-database
+  # seedhub-api:
+  #   build: seedhub-api
+  #   command: ["./hello-world"]
+  #   depends_on:
+  #     - seedhub-database
   seedhub-database:
     image: postgres
     restart: always
