@@ -1,11 +1,33 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS users (
-    user_number SERIAL PRIMARY KEY,
-    uuid varchar(36) NOT NULL UNIQUE,
+    user_number SERIAL,
+    uuid uuid NOT NULL DEFAULT uuid_generate_v4 (),
     first_name varchar(128) DEFAULT NULL,
     last_name varchar(128) DEFAULT NULL,
     username varchar(32) NOT NULL,
     password_hash varchar(255) NOT NULL,
-    email varchar(320) NOT NULL UNIQUE
+    email varchar(320) NOT NULL UNIQUE,
+    PRIMARY KEY(uuid)
+);
+
+CREATE TABLE IF NOT EXISTS seeds (
+    seed varchar(64) UNIQUE NOT NULL,
+    submitted_by uuid NOT NULL,
+    PRIMARY KEY(seed),
+    CONSTRAINT seed_submission_user
+        FOREIGN KEY(submitted_by)
+            REFERENCES users(uuid)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user_tracking (
+    user_uuid uuid NOT NULL UNIQUE,
+    last_login_date timestamptz,
+    CONSTRAINT user_row
+        FOREIGN KEY(user_uuid)
+            REFERENCES users(uuid)
+            ON DELETE CASCADE
 );
 
 INSERT INTO users (
