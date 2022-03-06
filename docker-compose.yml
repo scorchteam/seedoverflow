@@ -1,31 +1,31 @@
 version: '3'
 
 services:
-  seedhub-client:
-    build: seedhub-client
+  seedoverflow-client:
+    build: seedoverflow-client
     command: ["npm", "run", "dev"]
     volumes:
-      - ./seedhub-client:/src
+      - ./seedoverflow-client:/src
       - node-modules:/src/node_modules
     environment:
       - NODE_ENV=development
     ports:
       - '3000:3000'
     depends_on:
-      - seedhub-api
-      # - seedhub-database
-  # seedhub-api:
-  #   build: seedhub-api
+      - seedoverflow-api
+      # - seedoverflow-database
+  # seedoverflow-api:
+  #   build: seedoverflow-api
   #   command: ["./hello-world"]
   #   depends_on:
-  #     - seedhub-database
-  seedhub-database:
+  #     - seedoverflow-database
+  seedoverflow-database:
     image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=seedhub
+      - POSTGRES_DB=seedoverflow
     logging:
       options:
         max-size: 10m
@@ -34,7 +34,7 @@ services:
       - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./seedhub-api/schema/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./seedoverflow-api/schema/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
 volumes:
   node-modules:
