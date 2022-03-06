@@ -1,0 +1,19 @@
+/** Styles for navigation links */
+.a {
+    transition: all 0.3s;
+}
+.a:hover {
+    color: var(--purple);
+    text-decoration: none;
+}
+.a::after {
+    content: '';
+    display: block;
+    width: 1ch;
+    height: 2px;
+    transition: width 0.3s;
+    background-color: var(--purple);
+}
+.a:hover::after {
+    width: 100%;
+}

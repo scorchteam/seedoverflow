@@ -1,0 +1,10 @@
+
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /** Styles for mobile and desktop navlinks */
+    .headerNavLinkUl {
+        @apply flex flex-col md:flex-row md:items-center gap-1 md:gap-4 overflow-hidden md:h-auto pt-2
+    }
+}

@@ -1,9 +1,12 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
 
+/**
+ * Home page
+ * @returns Home page
+ */
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div className="bg-black h-full">
       Content
     </div>
   )
