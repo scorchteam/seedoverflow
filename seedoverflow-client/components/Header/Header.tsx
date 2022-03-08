@@ -37,7 +37,7 @@ const Header = () => {
   }
 
   return (
-    <div className="bg-zinc-800">
+    <div className="bg-dark-mode-dark-background">
       <header className="h-auto w-full md:container md:mx-auto">
         <nav className="flex flex-col md:flex-row md:items-center md:justify-between h-full bg-zinc-800 text-white px-4 py-4">
           <div className="flex justify-between items-center">

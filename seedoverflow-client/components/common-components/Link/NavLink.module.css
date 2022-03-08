@@ -3,16 +3,17 @@
     transition: all 0.3s;
 }
 .a:hover {
-    color: var(--purple);
+    color: var(--green-accent-color);
     text-decoration: none;
 }
 .a::after {
+    position: relative;
     content: '';
     display: block;
     width: 1ch;
     height: 2px;
     transition: width 0.3s;
-    background-color: var(--purple);
+    background-color: var(--green-accent-color);
 }
 .a:hover::after {
     width: 100%;
