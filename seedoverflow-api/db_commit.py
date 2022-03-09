@@ -1,9 +1,6 @@
-from app import app, db, User
+from app import app
+from db import db
+from models.UserModel import User
 
 app.app_context().push()
 db.create_all()
-
-user = User(email="admin@admin.com", password="jwoeiejfoiewf", first_name="Admin", last_name="User", username="Admin2")
-
-db.session.add(user)
-db.session.commit()
