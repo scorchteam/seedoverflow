@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
+import { ThemeButton } from "../../common-components/ThemeButton/ThemeButton";
 import styles from "../Header.module.css";
 import { renderNavLinks } from "./HeaderLinkHelpers";
 
@@ -28,6 +29,9 @@ const HeaderLinksMobile = (props: props) => {
         height={animateHeightHeight}>
             <ul className={styles.headerNavLinkUl}>
                 {renderNavLinks(props)}
+                <li key={999} className="w-fit">
+                    <ThemeButton />
+                </li>
             </ul>
         </AnimateHeight>
     )

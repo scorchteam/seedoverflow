@@ -13,9 +13,10 @@ interface props {
  * @todo Add website color palette
  */
 const NavLink = (props: props) => {
+
     return (
         <Link href={props.href}>
-           <a className={`text-2xl font-semibold text-main-text-color ${styles.a}`}>{props.linkText}</a> 
+           <a className={`text-2xl font-semibold text-green-accent-color ${styles.a}`}>{props.linkText}</a> 
         </Link>
     )
 }

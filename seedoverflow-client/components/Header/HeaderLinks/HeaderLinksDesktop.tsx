@@ -1,3 +1,4 @@
+import { ThemeButton } from "../../common-components/ThemeButton/ThemeButton";
 import styles from "../Header.module.css";
 import { renderNavLinks } from "./HeaderLinkHelpers";
 
@@ -14,6 +15,7 @@ const HeaderLinksDesktop = (props: props) => {
     return (
         <ul className={styles.headerNavLinkUl}>
             {renderNavLinks(props)}
+            <ThemeButton />
         </ul>
     )
 }
