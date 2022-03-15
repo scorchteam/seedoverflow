@@ -17,7 +17,7 @@ class MissingRequiredFieldsError(Error):
     def __init__(self, status_code="403", missing_keys=[]):
         self.status_code = status_code
         self.missing_keys = missing_keys
-        self.description = {"Missing Keys": missing_keys}
+        self.description = {"MissingKeys": missing_keys}
         self.title = self.__class__.__name__
         
 class UserNotFoundError(Error):

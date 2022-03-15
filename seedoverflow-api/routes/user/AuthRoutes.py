@@ -38,7 +38,7 @@ class UserRegisterApi(Resource):
             db.session.commit()
             return RegisterUserSuccess(uuid=str(user_id)).GetError()
         except Exception as e:
-            print(e)
+            print(e, flush=True)
             return Error().GetError()
 
 class UserLoginApi(Resource):
