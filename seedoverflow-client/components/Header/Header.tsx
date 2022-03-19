@@ -4,7 +4,7 @@ import HeaderHamburger from "./HeaderHamburger/HeaderHamburger";
 import HeaderLinksMobile from "./HeaderLinks/HeaderLinksMobile";
 import HeaderLinksDesktop from "./HeaderLinks/HeaderLinksDesktop";
 import { ThemeStoreContext } from "../../pages/_app";
-import { ThemeButton } from "../common-components/ThemeButton/ThemeButton";
+import Link from "next/link";
 
 /**
  * Renders the header component to be used site-wide
@@ -16,11 +16,9 @@ const Header = () => {
   const [collapsed, updateCollapsed] = useState<boolean>(true);
   const [viewWidth, updateViewWidth] = useState<number>();
 
-  const { darkModeBackgroundColor, lightModeBackgroundColor, lightModeTextColor, darkModeTextColor } = useContext(ThemeStoreContext);
-
   //non-reactive vars
   const mobileBreakpoint = 768;
-  const logoSize = 60;
+  const logoSize = 50;
 
   /** Setup window resize watcher in case view transitions */
   useEffect(() => {
@@ -43,11 +41,14 @@ const Header = () => {
   return (
     <div className={``}>
       <header className="h-auto w-full md:container md:mx-auto">
-        <nav className={`${lightModeBackgroundColor} ${darkModeBackgroundColor} ${lightModeTextColor} ${darkModeTextColor} flex flex-col md:flex-row md:items-center md:justify-between h-full px-4 py-4`}>
+        <nav className={`bg-light dark:bg-dark text-light-text dark:text-dark-text flex flex-col md:flex-row md:items-center md:justify-between h-full px-4 py-4`}>
           <div className="flex justify-between items-center">
             <div className="flex gap-4 items-center">
-              <Image src="/react.png" width={logoSize} height={logoSize} />
-              {/* Possible Future Title Location */}
+              <Link href={"/"}>
+                <a>
+                  <Image className="cursor-pointer" src="/seed.png" width={logoSize} height={logoSize} />
+                </a>
+              </Link>
             </div>
             <HeaderHamburger onClick={invertCollapse} />
           </div>

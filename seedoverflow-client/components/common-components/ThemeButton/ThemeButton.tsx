@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { ThemeStoreContext } from "../../../pages/_app";
 
 export const ThemeButton = () => {
     const [darkMode, setDarkMode] = useState<boolean | undefined>(undefined);
+    const { invertDarkMode } = useContext(ThemeStoreContext);
 
     useEffect(() => {
         setDarkMode(localStorage.getItem("darkmode") === "true");
@@ -10,6 +12,7 @@ export const ThemeButton = () => {
     useEffect(() => {
         if (darkMode === undefined)
             return
+        invertDarkMode();
         if (darkMode) {
             window.document.documentElement.classList.add('dark')
             localStorage.setItem("darkmode", "true")

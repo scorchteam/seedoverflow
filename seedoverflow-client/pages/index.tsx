@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Container from '../components/common-components/Container/Container'
+import Spinner from '../components/common-components/Spinner/Spinner'
 
 /**
  * Home page
@@ -8,7 +9,7 @@ import Container from '../components/common-components/Container/Container'
 const Home: NextPage = () => {
   return (
     <Container>
-      Content
+      <Spinner />
     </Container>
   )
 }

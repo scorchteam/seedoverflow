@@ -21,6 +21,15 @@ export interface UserLoginDto {
     password: string
 }
 
+export interface UserStore {
+    userData?: User,
+    userAccessToken?: string,
+    userLoggedIn?: boolean,
+    updateUserData(userData: User): any,
+    updateUserAccessToken(userAccessToken: string): any,
+    logout(): any
+}
+
 export const mockUserRegistrationDto: UserRegistrationDto = {
     email: "user@domain.com",
     username: "user",
@@ -67,5 +76,17 @@ export const GetUserDataPromise = async (userAccessToken: string) => {
         }
     }
     const url = `${API_URL}/user`
+    return fetch(url, requestOptions);
+}
+
+export const IsUserAuthenticated = async (userAccessToken: string) => {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userAccessToken}`
+        }
+    }
+    const url = `${API_URL}/checkauth`
     return fetch(url, requestOptions);
 }

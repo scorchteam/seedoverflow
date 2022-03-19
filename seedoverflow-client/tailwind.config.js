@@ -1,4 +1,5 @@
 module.exports = {
+  important: true,
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -6,7 +7,7 @@ module.exports = {
   purge: {
     content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
     options: {
-      safelist: [/^bg-/, /^text-/]
+      safelist: [/^bg/, /^text/, /^fill/]
     }
   },
   darkMode: 'class',
@@ -18,15 +19,16 @@ module.exports = {
       }
     },
     colors: {
-      'dark-background': '#231F20',
-      'dark-lighter-background': '#363133',
-      'light-background': '#ffffff',
-      'light-darker-background': '#eeeeee',
-      'dark-text-color': '#FFFFFA',
-      'light-text-color': '#000000',
-      'green-accent-color': '#2A7221',
-      'purple-accent-color': '#998FC7',
-      'blue-accent-color': '#788AA3'
+      'dark': '#1E1E24',
+      'dark-comp': '#363640',
+      'light': '#FBFAF5',
+      'light-comp': '#d9d8d2',
+      'dark-text': '#FBFAF5',
+      'light-text': '#000000',
+      'green': '#b0e8c3',
+      'darker-green': '#528262',
+      'purple': '#8367C7',
+      'blue': '#84CAE7'
     }
   },
   plugins: [],

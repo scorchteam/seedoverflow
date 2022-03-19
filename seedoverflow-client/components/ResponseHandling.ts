@@ -3,6 +3,7 @@ export enum SuccessResponse {
     Success = "Success",
     RegisterUserSuccess = "RegisterUserSuccess",
     LoginUserSuccess = "LoginUserSuccess",
+    UserIsAuthenticated = "UserIsAuthenticated"
 }
 
 /** Possible errors thrown by API */
@@ -20,19 +21,21 @@ export enum ErrorResponse {
  * @param toastSuccess function to spawn new successful toasts
  * @returns n/a
  */
-export const handleResponseSuccess = (response: any, toastSuccess: Function) => {
+export const handleResponseSuccess = (response: any, toastSuccess: Function | undefined = ()=>{}) => {
     if (!response)
         return
     switch (Object.keys(response)[0]) {
         case SuccessResponse.Success:
             toastSuccess("Success!")
-            break;
+            return true;
         case SuccessResponse.RegisterUserSuccess:
             toastSuccess("User registered successfully!")
-            break;
+            return true;
         case SuccessResponse.LoginUserSuccess:
             toastSuccess("User logged in successfully!")
-            break;
+            return true;
+        case SuccessResponse.UserIsAuthenticated:
+            return true;
     }
 }
 

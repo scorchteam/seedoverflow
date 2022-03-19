@@ -1,11 +1,11 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout from '../components/Layout'
-import { GetUserDataPromise, User } from '../components/Auth'
+import { GetUserDataPromise, User, UserStore } from '../components/Auth'
 import { createContext, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { handleResponseError } from '../components/ResponseHandling'
-import { ToastStore, UserStore } from '../components/Toast'
+import { ToastStore } from '../components/Toast'
 import { ThemeStore } from '../components/Theme'
 
 export const API_URL = "http://localhost:5000/api/v1"
@@ -22,13 +22,9 @@ const toastStore: ToastStore = {
   toastError: (message: string)=>{}
 }
 const themeStore: ThemeStore = {
-  darkModeBackgroundColor: "dark:bg-dark-background",
-  darkModeCompBackgroundColor: "dark:bg-dark-lighter-background",
-  darkModeTextColor: "dark:text-dark-text-color",
-  lightModeBackgroundColor: "bg-light-background",
-  lightModeCompBackgroundColor: "bg-light-darker-background",
-  lightModeTextColor: "text-light-text-color"
-}
+  darkModeEnabled: undefined,
+  invertDarkMode: ()=>{}
+};
 export const UserStoreContext = createContext(userStore);
 export const ToastStoreContext = createContext(toastStore);
 export const ThemeStoreContext = createContext(themeStore);
@@ -37,15 +33,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [userData, applyUserData] = useState<User>();
   const [userAccessToken, applyUserAccessToken] = useState<string>("");
   const [userLoggedIn, applyUserLoggedIn] = useState<boolean>(false);
+  const [darkModeEnabled, updateDarkModeEnabled] = useState<boolean>();
 
-  const {
-    darkModeBackgroundColor,
-    darkModeCompBackgroundColor,
-    darkModeTextColor,
-    lightModeBackgroundColor,
-    lightModeCompBackgroundColor,
-    lightModeTextColor
-  } = themeStore;
+  const toastStyles = `bg-green text-light-text dark:bg-dark-comp dark:text-dark-text`;
 
   useEffect(() => {
     const accessToken = localStorage.getItem("token");
@@ -89,24 +79,23 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   const toastSuccess = (message: string) => {
-    toast.success(message, {style: {background: '#333', color: '#fff'}});
+    toast.success(message, {className: toastStyles})
   }
 
   const toastError = (message: string) => {
-    toast.error(message, {style: {background: '#333', color: '#fff'}});
+    toast.error(message, {className: toastStyles})
+  }
+
+  const invertDarkMode = () => {
+    updateDarkModeEnabled(!darkModeEnabled);
   }
 
   return (
     <UserStoreContext.Provider value={{updateUserData, updateUserAccessToken, logout, userData, userLoggedIn, userAccessToken}}>
       <ToastStoreContext.Provider value={{toastSuccess, toastError}}>
         <ThemeStoreContext.Provider value={{
-          darkModeBackgroundColor,
-          darkModeCompBackgroundColor,
-          darkModeTextColor,
-          lightModeBackgroundColor,
-          lightModeCompBackgroundColor,
-          lightModeTextColor,
-        }}>
+          ...themeStore,
+          invertDarkMode}}>
           <Layout>
             <Component {...pageProps}/>
             <Toaster />

@@ -6,11 +6,11 @@
 
 /*** Global variables ***/
 :root {
-  --dark-background-color: '#231F20',
-  --dark-lighter-background-color: '#363133',
+  --dark-background-color: '#1E1E24',
+  --dark-lighter-background-color: '#363640',
   --dark-text-color: '#FFFFFA',
-  --light-background-color: '#eeeeee',
-  --light-darker-background-color: '#dddddd',
+  --light-background-color: '#b0e8c3',
+  --light-darker-background-color: '#548564',
   --green-accent-color: '#2A7221',
   --purple-accent-color: '#998FC7',
   --blue-accent-color: '#788AA3'
@@ -26,4 +26,5 @@ body {
 
 * {
   box-sizing: border-box;
+  font-weight: 600;
 }

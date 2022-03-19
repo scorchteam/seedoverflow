@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { useContext } from 'react';
 import { LoginUserPromise, mockUserLoginDto, mockUserRegistrationDto, RegisterNewUserPromise} from '../components/Auth'
+import Button from '../components/common-components/Button/Button';
 import Container from '../components/common-components/Container/Container';
 import { handleResponseError, handleResponseSuccess } from '../components/ResponseHandling';
 import { ToastStoreContext, UserStoreContext } from './_app';
@@ -51,11 +52,11 @@ const Auth: NextPage = () => {
 
     return (
         <Container>
-            <button className="bg-green-accent-color p-2 m-1 rounded-lg" onClick={() => registerUser()}>Register New User</button>
-            <br/>
-            <button className="bg-green-accent-color p-2 m-1 rounded-lg" onClick={() => loginUser()}>Login User</button>
-            <br/>
-            <button className="bg-green-accent-color p-2 m-1 rounded-lg" onClick={() => logout()}>Logout</button>
+            <div className='grid grid-rows-[auto_auto_auto] gap-4 w-fit'>
+                <Button buttonText='Register new user' onClick={registerUser}/>
+                <Button buttonText='Login User' onClick={loginUser}/>
+                <Button buttonText='Logout' onClick={logout}/>
+            </div>
         </Container>
     )
 }

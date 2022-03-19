@@ -15,8 +15,8 @@ interface props {
 const NavLink = (props: props) => {
 
     return (
-        <Link href={props.href}>
-           <a className={`text-2xl font-semibold text-green-accent-color ${styles.a}`}>{props.linkText}</a> 
+        <Link href={props.href.toLowerCase()}>
+           <a className={`${styles.a} dark:text-purple dark:hover:text-purple dark:after:bg-purple`}>{props.linkText}</a> 
         </Link>
     )
 }

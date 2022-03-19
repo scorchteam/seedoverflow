@@ -1,10 +1,11 @@
 /** Styles for navigation links */
 .a {
     transition: all 0.3s;
+    @apply text-2xl font-semibold text-darker-green;
 }
 .a:hover {
-    color: var(--green-accent-color);
     text-decoration: none;
+    @apply text-darker-green;
 }
 .a::after {
     position: relative;
@@ -13,7 +14,7 @@
     width: 1ch;
     height: 2px;
     transition: width 0.3s;
-    background-color: var(--green-accent-color);
+    @apply bg-darker-green;
 }
 .a:hover::after {
     width: 100%;
