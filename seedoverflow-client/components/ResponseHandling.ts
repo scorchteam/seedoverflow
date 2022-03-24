@@ -21,22 +21,23 @@ export enum ErrorResponse {
  * @param toastSuccess function to spawn new successful toasts
  * @returns n/a
  */
-export const handleResponseSuccess = (response: any, toastSuccess: Function | undefined = ()=>{}) => {
+export const handleResponseSuccess = (response: any, toastSuccess: Function | undefined = ()=>{}) : SuccessResponse | undefined => {
     if (!response)
         return
     switch (Object.keys(response)[0]) {
         case SuccessResponse.Success:
             toastSuccess("Success!")
-            return true;
+            return SuccessResponse.Success;
         case SuccessResponse.RegisterUserSuccess:
             toastSuccess("User registered successfully!")
-            return true;
+            return SuccessResponse.RegisterUserSuccess;
         case SuccessResponse.LoginUserSuccess:
             toastSuccess("User logged in successfully!")
-            return true;
+            return SuccessResponse.LoginUserSuccess;
         case SuccessResponse.UserIsAuthenticated:
-            return true;
+            return SuccessResponse.UserIsAuthenticated;
     }
+    return undefined;
 }
 
 /**
@@ -45,25 +46,26 @@ export const handleResponseSuccess = (response: any, toastSuccess: Function | un
  * @param toastError function to submit error toasts
  * @returns true if error found
  */
-export const handleResponseError = (response: any, toastError: Function) => {
-    if (!response)
+export const handleResponseError = (response: any, toastError: Function = ()=>{}) : ErrorResponse | undefined => {
+    if (!response || Object.keys(response).length < 1)
         return
     switch (Object.keys(response)[0]) {
         case ErrorResponse.Error:
             toastError("Server is having issues :(");
-            return true;
+            return ErrorResponse.Error;
         case ErrorResponse.UserEmailTakenError:
             toastError("Email already taken");
-            return true;
+            return ErrorResponse.UserEmailTakenError;
         case ErrorResponse.EmptyRequestBodyError:
             toastError("Unable to complete request. Invalid body");
-            return true;
+            return ErrorResponse.EmptyRequestBodyError;
         case ErrorResponse.UserNotFoundError:
             toastError("Unable to login user. User not found");
-            return true;
+            return ErrorResponse.UserNotFoundError;
         case ErrorResponse.MissingRequiredFieldsError:
             var key = ErrorResponse.MissingRequiredFieldsError;
             toastError(`Missing required field(s): ${response[key].MissingKeys}`);
-            return true;
+            return ErrorResponse.MissingRequiredFieldsError;
     }
+    return undefined;
 }

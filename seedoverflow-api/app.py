@@ -6,29 +6,31 @@ from db import initialize_db, db
 from routes.routes import initalize_routes
 from dotenv import load_dotenv
 from flask_cors import CORS
+from config import app_config
 
-load_dotenv(override=True)
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = "ddqwdqwdqw"
+def create_app(config_name="development"):
+    load_dotenv(override=True)
+    app = Flask(__name__)
+    app.config.from_object(app_config[config_name])
+    # app.config['SECRET_KEY'] = "ddqwdqwdqw"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@seedoverflow-database:5432/seedoverflow"
+    # app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:postgres@seedoverflow-database:5432/seedoverflow"
 
-api = Api(app)
-jwt = JWTManager(app)
-bcrypt = Bcrypt(app)
+    api = Api(app)
+    jwt = JWTManager(app)
+    bcrypt = Bcrypt(app)
 
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
-initialize_db(app)
-initalize_routes(api)
+    initialize_db(app)
+    initalize_routes(api)
 
-app.app_context().push()
-db.create_all()
+    app.app_context().push()
+    db.create_all()
 
-@app.route('/')
-def index():
-    return 'Hello, World!'
+    @app.route('/')
+    def index():
+        return 'Hello, World!'
 
-if __name__ == "__main__":
-    app.run()
+    return app

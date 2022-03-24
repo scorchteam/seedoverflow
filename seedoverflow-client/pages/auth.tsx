@@ -24,10 +24,9 @@ const Auth: NextPage = () => {
             .then(response => response.json())
             .catch((error) => {
                 toastError("Unable to register user");
-                console.log(error);
             });
         var result = handleResponseError(response, toastError);
-        if (result && result === true)
+        if (result)
             return
         handleResponseSuccess(response, toastSuccess);
     }
@@ -41,10 +40,9 @@ const Auth: NextPage = () => {
             .then(response => response.json())
             .catch((error) => {
                 toastError("Unable to login user");
-                console.log(error);
             })
         var result = handleResponseError(response, toastError);
-        if (result && result === true)
+        if (result)
             return
         handleResponseSuccess(response, toastSuccess);
         updateUserAccessToken(response?.LoginUserSuccess?.Token);

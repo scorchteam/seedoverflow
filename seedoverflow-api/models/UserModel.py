@@ -1,8 +1,12 @@
 from db import db
-from sqlalchemy import Column, String
+import datetime
+from sqlalchemy import Column, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from flask_bcrypt import generate_password_hash, check_password_hash
 import uuid
+from models.SeedModel import Seed
+from models.UserTrackingModel import UserTracking
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -12,6 +16,8 @@ class User(db.Model):
     last_name = Column(String(64))
     username = Column(String(32), nullable=False)
     password = Column(String, nullable=False)
+    seeds = relationship(Seed, cascade="all, delete")
+    usertracking = relationship(UserTracking, cascade="all, delete")
     
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

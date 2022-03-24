@@ -1,4 +1,5 @@
 from flask import Response, request
+import datetime
 from flask_restful import Resource
 from flask_bcrypt import generate_password_hash
 from flask_jwt_extended import create_access_token
@@ -6,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import UniqueViolation
 import string
 from db import db
-from models.UserModel import User
+from models.UserModel import User, UserTracking
 from resources.error import EmptyRequestBodyError, MissingRequiredFieldsError, UserEmailTakenError, UserNotFoundError, Error
 from resources.success import LoginUserSuccess, RegisterUserSuccess
 import datetime
@@ -26,15 +27,19 @@ class UserRegisterApi(Resource):
                     keys_not_found.append(key)
             if (len(keys_not_found) > 0):
                 return MissingRequiredFieldsError(missing_keys=keys_not_found).GetError()
+            existing_user = db.session.get(User, request_body["email"])
+            if existing_user is not None:
+                return UserEmailTakenError().GetError()
             user = User(**request_body)
             user.hash_password()
             db.session.add(user)
-            try:
-                db.session.flush()
-            except IntegrityError as e:
-                assert isinstance(e.orig, UniqueViolation)
-                return UserEmailTakenError().GetError()
+            db.session.flush()
             user_id = user.uuid
+            db.session.commit()
+            usertracking = UserTracking.query.filter_by(user_tracking_id=user_id).first()
+            if usertracking is None:
+                usertracking = UserTracking(user_tracking_id=user_id)
+            db.session.add(usertracking)
             db.session.commit()
             return RegisterUserSuccess(uuid=str(user_id)).GetError()
         except Exception as e:
@@ -62,9 +67,15 @@ class UserLoginApi(Resource):
             authorized = user.check_password(password)
             if not authorized:
                 return UserNotFoundError().GetError()
+            usertracking = UserTracking.query.filter_by(user_tracking_id=user.uuid).first()
+            if usertracking is None:
+                usertracking = UserTracking(user_tracking_id=user.uuid, last_login_date=datetime.datetime.utcnow())
+            usertracking.last_login_date = datetime.datetime.utcnow()
+            db.session.add(usertracking)
+            db.session.commit()
             expires = datetime.timedelta(days=7)
             access_token = create_access_token(identity=str(user.email), expires_delta=expires)
             return LoginUserSuccess(access_token=access_token).GetError()
         except Exception as e:
-            print(e)
+            print(e, flush=True)
             return Error().GetError()

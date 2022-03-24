@@ -28,3 +28,21 @@ class UserIsAuthenticated(Success):
         self.status_code = status_code
         self.description = description
         self.title = self.__class__.__name__
+
+class DeletingUserSuccess(Success):
+    def __init__(self, status_code="200", description="User deleted successfully"):
+        self.status_code = status_code
+        self.description = description
+        self.title = self.__class__.__name__
+
+class DeletingSeedSuccess(Success):
+    def __init__(self, status_code="200", description="Seed deleted successfully"):
+        self.status_code = status_code
+        self.description = description
+        self.title = self.__class__.__name__
+
+class AddNewSeedSuccess(Success):
+    def __init__(self, status_code="200", description="Seed added successfully"):
+        self.status_code = status_code
+        self.description = description
+        self.title = self.__class__.__name__

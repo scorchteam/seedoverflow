@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { IsUserAuthenticated } from "./Auth";
 import Container from "./common-components/Container/Container";
 import Spinner from "./common-components/Spinner/Spinner";
-import { handleResponseSuccess } from "./ResponseHandling";
+import { ErrorResponse, handleResponseError, handleResponseSuccess } from "./ResponseHandling";
 
 const withAuth = (WrappedComponent: FunctionComponent) => {
 
@@ -31,36 +31,48 @@ const withAuth = (WrappedComponent: FunctionComponent) => {
             const data = await checkUserAuth(accessToken)
                 .catch(error => {
                     if (!error.response) {
-                        setConnectionError(true);
-                        console.log(error);
-                        var retry = localStorage.getItem("retry");
-                        if (!retry) {
-                            retry = "1"
-                            localStorage.setItem("retry", retry);
-                        }
-                        if (retry) {
-                            const retryNum = parseInt(retry);
-                            if (retryNum >= 3) {
-                                setCountdown(-1);
-                                return;
-                            }
-                            setInterval( function () {
-                                const newTimer = timer - 1;
-                                if (newTimer <= 0)
-                                    window.location.reload();
-                                timer = newTimer;
-                                setCountdown(newTimer);
-                                console.log(newTimer);
-                            }, 1000)
-                            localStorage.setItem("retry", (retryNum + 1).toString());
-                        }
+                        handleBadConnection();
                     }
                 })
-            if (data && handleResponseSuccess(data[0])) {
-                setVerified(true);
-                localStorage.removeItem("retry")
+            if (data && Object.keys(data).length > 0) {
+                if (handleResponseSuccess(data)) {
+                    setVerified(true);
+                    localStorage.removeItem("retry");
+                    return;
+                }
+                const responseError = handleResponseError(data);
+                if (responseError) {
+                    if (responseError === ErrorResponse.UserNotFoundError) {
+                        localStorage.removeItem("token");
+                        Router.push("/login");
+                    }
+                }
             }
         }, []);
+
+        const handleBadConnection = (error: any = null) => {
+            setConnectionError(true);
+            var retry = localStorage.getItem("retry");
+            if (!retry) {
+                retry = "1"
+                localStorage.setItem("retry", retry);
+            }
+            if (retry) {
+                const retryNum = parseInt(retry);
+                if (retryNum >= 3) {
+                    setCountdown(-1);
+                    return;
+                }
+                setInterval( function () {
+                    const newTimer = timer - 1;
+                    if (newTimer <= 0)
+                        window.location.reload();
+                    timer = newTimer;
+                    setCountdown(newTimer);
+                }, 1000)
+                localStorage.setItem("retry", (retryNum + 1).toString());
+            }
+        }
 
         if (verified) {
             return <WrappedComponent {...props} />;
@@ -71,14 +83,18 @@ const withAuth = (WrappedComponent: FunctionComponent) => {
                         {
                             connectionError &&
                             <>
-                                <p className="mb-2 text-xl text-center">Looks like we're having trouble... Try refreshing :)</p>
+                                <p className="block mr-2 mb-2 text-xl text-center">Looks like we're having trouble... Try refreshing :)</p>
                                 {
                                     countdown > 0 &&
-                                    <p className="mb-2 text-md text-center">Auto-refreshing in {countdown}...</p>
+                                    <p className="mr-2 mb-2 text-md text-center">Auto-refreshing in {countdown}</p>
                                 }
                             </>
                         }
-                        <Spinner />
+                        {
+                            !connectionError &&
+                            <p className="mr-2 mb-2 text-md text-center">Validating user credentials</p>
+                        }
+                        <Spinner width="w-5" height="w-5"/>
                     </div>
                 </Container>
             ) ;

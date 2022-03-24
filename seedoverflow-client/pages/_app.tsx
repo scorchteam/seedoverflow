@@ -4,7 +4,7 @@ import Layout from '../components/Layout'
 import { GetUserDataPromise, User, UserStore } from '../components/Auth'
 import { createContext, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import { handleResponseError } from '../components/ResponseHandling'
+import { ErrorResponse, handleResponseError } from '../components/ResponseHandling'
 import { ToastStore } from '../components/Toast'
 import { ThemeStore } from '../components/Theme'
 
@@ -51,13 +51,20 @@ function MyApp({ Component, pageProps }: AppProps) {
     GetUserDataPromise(userAccessToken)
       .then(response => response.json())
       .then(data => {
-        if (handleResponseError(data, toastError))
+        if (data) {
+          const responseError = handleResponseError(data, toastError);
+          if (responseError && responseError === ErrorResponse.UserNotFoundError) {
+            localStorage.removeItem("token")
+            return
+          }
+        } else {
+          toastError("An unknown error occured");
           return
+        }
         applyUserData(data as User);
         applyUserLoggedIn(true);
       })
       .catch(error => {
-        console.log(error);
         toastError("Unable to grab user data");
       })
   }, [userAccessToken])

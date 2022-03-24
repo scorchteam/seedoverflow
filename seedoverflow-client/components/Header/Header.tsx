@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import HeaderHamburger from "./HeaderHamburger/HeaderHamburger";
 import HeaderLinksMobile from "./HeaderLinks/HeaderLinksMobile";
 import HeaderLinksDesktop from "./HeaderLinks/HeaderLinksDesktop";
-import { ThemeStoreContext } from "../../pages/_app";
 import Link from "next/link";
 
 /**
@@ -12,7 +11,7 @@ import Link from "next/link";
  */
 const Header = () => {
   //State
-  const [navLinks] = useState<string[]>(["Home", "Trending", "Profile"]);
+  const [navLinks] = useState<string[]>(["Profile"]);
   const [collapsed, updateCollapsed] = useState<boolean>(true);
   const [viewWidth, updateViewWidth] = useState<number>();
 
