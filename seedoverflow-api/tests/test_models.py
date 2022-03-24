@@ -5,18 +5,13 @@ import uuid, unittest
 from models.UserModel import User
 from models.SeedModel import Seed
 from models.UserTrackingModel import UserTracking
+from tests.Common import user_register_data
 
 class ModelTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client
-        self.user_data = {
-            'email': 'user@domain.com',
-            'password': 'password',
-            'first_name': 'first',
-            'last_name': 'last',
-            'username': 'username'
-        }
+        self.user_data = user_register_data
         self.seed_data = {
             'seed': 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
         }

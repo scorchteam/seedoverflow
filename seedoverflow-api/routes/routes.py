@@ -10,7 +10,7 @@ def initalize_routes(api):
     #auth
     api.add_resource(UserRegisterApi, f"{base_url}/user/auth/register")
     api.add_resource(UserLoginApi, f"{base_url}/user/auth/login")
-    api.add_resource(CheckAuthApi, f"{base_url}/checkauth")
+    api.add_resource(CheckAuthApi, f"{base_url}/user/auth/checkauth")
     #user
     api.add_resource(UserApi, f"{base_url}/user")
     api.add_resource(UserTrackingApi, f"{base_url}/user/tracking")
