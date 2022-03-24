@@ -10,3 +10,4 @@ user_login_data = {
     'email': 'user@domain.com',
     'password': 'password'
 }
+
