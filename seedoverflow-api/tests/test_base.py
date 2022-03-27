@@ -109,3 +109,6 @@ class TestBase(unittest.TestCase):
         if token is not None:
             return self.client().post(f'{base_url}{route}', headers=self.create_auth_header(token))
         return self.client().post(f'{base_url}{route}')
+
+    def test_bad(self):
+        self.assertEqual(1, 2)
