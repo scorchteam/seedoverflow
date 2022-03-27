@@ -19,6 +19,13 @@ class MissingRequiredFieldsError(Error):
         self.missing_keys = missing_keys
         self.description = {"MissingKeys": missing_keys}
         self.title = self.__class__.__name__
+
+class ExtraFieldsError(Error):
+    def __init__(self, status_code="403", extra_keys=[]):
+        self.status_code = status_code
+        self.extra_keys = extra_keys
+        self.description = {"ExtraKeys": extra_keys}
+        self.title = self.__class__.__name__
         
 class UserNotFoundError(Error):
     def __init__(self, status_code="403", description="User not found"):
@@ -58,6 +65,12 @@ class InvalidAccessToSeedError(Error):
 
 class SeedAlreadyDefinedError(Error):
     def __init__(self, status_code="403", description="Seed has already been added to database"):
+        self.status_code = status_code
+        self.description = description
+        self.title = self.__class__.__name__
+
+class UserTrackingNotFound(Error):
+    def __init__(self, status_code="403", description="User tracking not found"):
         self.status_code = status_code
         self.description = description
         self.title = self.__class__.__name__

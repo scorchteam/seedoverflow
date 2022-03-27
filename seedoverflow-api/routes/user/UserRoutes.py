@@ -5,7 +5,6 @@ from resources.error import UserNotFoundError, Error, DeletingUserError
 from resources.success import DeletingUserSuccess
 from db import db
 from models.SeedModel import Seed
-from routes.user.UserHelpers import GetUserByEmail
 
 class UserApi(Resource):
     @jwt_required()
@@ -22,13 +21,14 @@ class UserApi(Resource):
     @jwt_required()
     def delete(self):
         try:
-            user = GetUserByEmail()
+            user_email = get_jwt_identity()
+            user = db.session.get(User, user_email)
             if user is None:
                 return UserNotFoundError().GetError()
             db.session.delete(user)
             db.session.commit()
             db.session.flush()
-            check_user_deleted = GetUserByEmail()
+            check_user_deleted = db.session.get(User, user_email)
             if check_user_deleted is not None:
                 return DeletingUserError().GetError()
             return DeletingUserSuccess().GetError()

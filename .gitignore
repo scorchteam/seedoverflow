@@ -2,3 +2,5 @@
 .history/
 __pycache__
 .env
+.coverage
+.vscode/

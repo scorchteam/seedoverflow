@@ -12,7 +12,8 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@seedoverflow-database:5432/test'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/test'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 app_config = {
     'development': DevelopmentConfig,

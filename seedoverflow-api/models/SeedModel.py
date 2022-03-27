@@ -12,4 +12,5 @@ class Seed(db.Model):
             'seed': self.seed,
             'submitted_by': str(self.submitted_by)
         }
+        return seed_object
     

@@ -1,7 +1,7 @@
 from routes.user.AuthRoutes import UserLoginApi, UserRegisterApi
 from routes.user.UserRoutes import UserApi
 from routes.user.CheckAuthRoutes import CheckAuthApi
-from routes.seed.SeedRoutes import SeedApi
+from routes.seed.SeedRoutes import SeedApi, SeedIdApi
 from routes.user.UserTrackingRoutes import UserTrackingApi
 
 base_url = "/api/v1"
@@ -15,5 +15,5 @@ def initalize_routes(api):
     api.add_resource(UserApi, f"{base_url}/user")
     api.add_resource(UserTrackingApi, f"{base_url}/user/tracking")
     #seed
-    api.add_resource(SeedApi, f"{base_url}/seed/<id>")
-    
+    api.add_resource(SeedIdApi, f"{base_url}/seed/<id>")
+    api.add_resource(SeedApi, f"{base_url}/seed")

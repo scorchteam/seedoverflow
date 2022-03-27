@@ -42,7 +42,8 @@ class DeletingSeedSuccess(Success):
         self.title = self.__class__.__name__
 
 class AddNewSeedSuccess(Success):
-    def __init__(self, status_code="200", description="Seed added successfully"):
+    def __init__(self, status_code="200", description="Seed added successfully", seed=""):
         self.status_code = status_code
-        self.description = description
+        self.description = {"Created Seed": seed,
+                            "Description": description}
         self.title = self.__class__.__name__

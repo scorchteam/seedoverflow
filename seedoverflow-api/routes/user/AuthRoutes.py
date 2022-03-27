@@ -3,13 +3,12 @@ import datetime
 from flask_restful import Resource
 from flask_bcrypt import generate_password_hash
 from flask_jwt_extended import create_access_token
-from sqlalchemy.exc import IntegrityError
-from psycopg2.errors import UniqueViolation
 import string
 from db import db
 from models.UserModel import User, UserTracking
-from resources.error import EmptyRequestBodyError, MissingRequiredFieldsError, UserEmailTakenError, UserNotFoundError, Error
+from resources.error import EmptyRequestBodyError, MissingRequiredFieldsError, UserEmailTakenError, UserNotFoundError, Error, ExtraFieldsError
 from resources.success import LoginUserSuccess, RegisterUserSuccess
+from resources.CommonHelperFunctions import check_for_extra_keys, check_for_missing_required_keys
 import datetime
 
 letters = string.ascii_lowercase
@@ -21,12 +20,13 @@ class UserRegisterApi(Resource):
             return EmptyRequestBodyError().GetError()
         try:
             required_keys = ["username", "password", "email"]
-            keys_not_found = []
-            for key in required_keys:
-                if key not in request_body:
-                    keys_not_found.append(key)
+            accepted_keys = ["username", "password", "email", "first_name", "last_name"]
+            keys_not_found = check_for_missing_required_keys(required_keys, request_body)
             if (len(keys_not_found) > 0):
                 return MissingRequiredFieldsError(missing_keys=keys_not_found).GetError()
+            extra_keys = check_for_extra_keys(accepted_keys, request_body)
+            if (len(extra_keys) > 0):
+                return ExtraFieldsError(extra_keys=extra_keys).GetError()
             existing_user = db.session.get(User, request_body["email"])
             if existing_user is not None:
                 return UserEmailTakenError().GetError()
@@ -53,12 +53,16 @@ class UserLoginApi(Resource):
             return EmptyRequestBodyError().GetError()
         try:
             required_keys = ["email", "password"]
+            accepted_keys = ["email", "password"]
             keys_not_found = []
             for key in required_keys:
                 if key not in request_body:
                     keys_not_found.append(key)
             if (len(keys_not_found) > 0):
                 return MissingRequiredFieldsError(missing_keys=keys_not_found).GetError()
+            extra_keys = check_for_extra_keys(accepted_keys, request_body)
+            if (len(extra_keys) > 0):
+                return ExtraFieldsError(extra_keys=extra_keys).GetError()
             password = request_body["password"]
             email = request_body["email"]
             user = db.session.get(User, email)
