@@ -8,6 +8,10 @@ fi
 
 coverage run -m unittest discover -s tests
 
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
 if [ $# -gt 0 ]; then
     if [ $1 == "-c" ]; then
         coverage report
