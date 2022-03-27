@@ -17,5 +17,5 @@ jobs:
         working-directory: seedoverflow-api
       - name: Run tests
         run: |
-          test-api.sh
+          ./test-api.sh
         working-directory: seedoverflow-api
