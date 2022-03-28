@@ -1,6 +1,6 @@
 import { NextPage } from "next"
 import { useContext } from "react"
-import withAuth from "../../components/AuthProvider"
+import withAuth from "../../components/withAuthProvider"
 import Container from "../../components/common-components/Container/Container"
 import { UserStoreContext } from "../_app"
 

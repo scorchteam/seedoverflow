@@ -87,6 +87,6 @@ export const IsUserAuthenticated = async (userAccessToken: string) => {
             "Authorization": `Bearer ${userAccessToken}`
         }
     }
-    const url = `${API_URL}/checkauth`
+    const url = `${API_URL}/user/auth/checkauth`
     return fetch(url, requestOptions);
 }

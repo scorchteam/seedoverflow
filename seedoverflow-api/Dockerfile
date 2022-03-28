@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.9
 RUN mkdir /backend
 WORKDIR /backend
 COPY requirements.txt /backend/requirements.txt

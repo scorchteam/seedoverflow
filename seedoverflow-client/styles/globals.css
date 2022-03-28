@@ -28,3 +28,8 @@ body {
   box-sizing: border-box;
   font-weight: 600;
 }
+
+.customInput {
+  @apply rounded-lg text-light-text p-1 
+}
+

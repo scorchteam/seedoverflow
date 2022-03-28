@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { LoginUserPromise, mockUserLoginDto, mockUserRegistrationDto, RegisterNewUserPromise} from '../components/Auth'
 import Button from '../components/common-components/Button/Button';
 import Container from '../components/common-components/Container/Container';
@@ -14,6 +14,7 @@ const Auth: NextPage = () => {
 
     const { updateUserAccessToken, logout, userLoggedIn } = useContext(UserStoreContext);
     const { toastSuccess, toastError } = useContext(ToastStoreContext);
+    const [loginLoading, setLoginLoading] = useState<boolean>(false);
 
     const registerUser = async () => {
         if (userLoggedIn && userLoggedIn === true) {
@@ -36,6 +37,7 @@ const Auth: NextPage = () => {
             toastError("Already logged in");
             return;
         } 
+        setLoginLoading(true);
         const response = await LoginUserPromise(mockUserLoginDto)
             .then(response => response.json())
             .catch((error) => {
@@ -45,6 +47,7 @@ const Auth: NextPage = () => {
         if (result)
             return
         handleResponseSuccess(response, toastSuccess);
+        setLoginLoading(false);
         updateUserAccessToken(response?.LoginUserSuccess?.Token);
     }
 
@@ -52,7 +55,7 @@ const Auth: NextPage = () => {
         <Container>
             <div className='grid grid-rows-[auto_auto_auto] gap-4 w-fit'>
                 <Button buttonText='Register new user' onClick={registerUser}/>
-                <Button buttonText='Login User' onClick={loginUser}/>
+                <Button buttonText='Login User' loading={loginLoading} onClick={loginUser}/>
                 <Button buttonText='Logout' onClick={logout}/>
             </div>
         </Container>

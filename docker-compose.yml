@@ -20,7 +20,7 @@ services:
     volumes:
       - ./seedoverflow-api:/backend
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=docker-dev
       - FLASK_APP=run.py
     env_file:
       - ./seedoverflow-api/.env

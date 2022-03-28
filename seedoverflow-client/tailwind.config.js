@@ -7,7 +7,7 @@ module.exports = {
   purge: {
     content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
     options: {
-      safelist: [/^bg/, /^text/, /^fill/]
+      safelist: [/^bg/, /^text/, /^fill/, /^stroke/]
     }
   },
   darkMode: 'class',
@@ -28,7 +28,9 @@ module.exports = {
       'green': '#b0e8c3',
       'darker-green': '#528262',
       'purple': '#8367C7',
-      'blue': '#84CAE7'
+      'darker-purple': '#45366b',
+      'blue': '#84CAE7',
+      'danger': '#e03d3d'
     }
   },
   plugins: [],

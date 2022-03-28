@@ -25,7 +25,7 @@ const withAuth = (WrappedComponent: FunctionComponent) => {
         useEffect(async () => {
             const accessToken = localStorage.getItem("token");
             if (!accessToken) {
-                Router.push("/login");
+                Router.replace("/login");
                 return
             }
             const data = await checkUserAuth(accessToken)
@@ -44,7 +44,7 @@ const withAuth = (WrappedComponent: FunctionComponent) => {
                 if (responseError) {
                     if (responseError === ErrorResponse.UserNotFoundError) {
                         localStorage.removeItem("token");
-                        Router.push("/login");
+                        Router.replace("/login");
                     }
                 }
             }

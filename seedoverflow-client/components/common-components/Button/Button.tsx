@@ -1,9 +1,14 @@
-import { useContext } from "react";
+import { ButtonHTMLAttributes, useContext, useState } from "react";
 import { ThemeStoreContext } from "../../../pages/_app";
+import { ButtonType } from "../../CommonEnums";
+import Spinner from "../Spinner/Spinner";
 
 interface props {
     buttonText: string,
-    onClick?: any
+    onClick?: any,
+    loading?: boolean,
+    type?: ButtonType,
+    className?: string
 }
 
 const Button = (props: props) => {
@@ -11,8 +16,14 @@ const Button = (props: props) => {
 
     return (
         <button
-            onClick={() => onClick()}
-            className={`m-0 p-2 rounded-lg transition ease-in-out hover:scale-105 bg-green dark:bg-purple text-light-text dark:text-dark-text`}>
+            onClick={onClick ? () => onClick() : () => {}}
+            disabled={props.loading}
+            type={props.type}
+            className={`m-0 p-2 flex gap-2 items-center justify-center rounded-lg transition ease-in-out hover:scale-105 bg-green disabled:bg-darker-green dark:bg-purple dark:disabled:bg-darker-purple text-light-text dark:text-dark-text ${props.className}`}>
+            {
+                props.loading &&
+                <Spinner width="w-4" height="h-4" />
+            }
             {buttonText}
         </button>
     )

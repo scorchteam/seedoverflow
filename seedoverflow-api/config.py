@@ -7,6 +7,10 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/seedoverflow'
+
+class DockerDevelopmentConfig(Config):
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@seedoverflow-database:5432/seedoverflow'
 
 class TestingConfig(Config):
@@ -17,5 +21,6 @@ class TestingConfig(Config):
 
 app_config = {
     'development': DevelopmentConfig,
+    'docker-dev': DockerDevelopmentConfig,
     'testing': TestingConfig
 }
