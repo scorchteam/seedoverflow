@@ -1,3 +1,6 @@
+import json
+
+
 class Success():
     def __init__(self, status_code="200", description="Success", title="Success"):
         self.status_code = status_code
@@ -45,5 +48,12 @@ class AddNewSeedSuccess(Success):
     def __init__(self, status_code="200", description="Seed added successfully", seed=""):
         self.status_code = status_code
         self.description = {"Created Seed": seed,
+                            "Description": description}
+        self.title = self.__class__.__name__
+
+class GetSeedsSuccess(Success):
+    def __init__(self, status_code="200", description="Seeds fetched successfully", seeds=[]):
+        self.status_code = status_code
+        self.description = {"Seeds": seeds,
                             "Description": description}
         self.title = self.__class__.__name__

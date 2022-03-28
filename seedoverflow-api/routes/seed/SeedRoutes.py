@@ -6,7 +6,7 @@ from models.UserModel import User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from resources.error import EmptyRequestBodyError, Error, ExtraFieldsError, InvalidAccessToSeedError, InvalidSeedError, MissingRequiredFieldsError, SeedNotFoundError, UserNotFoundError, SeedAlreadyDefinedError
 from resources.CommonHelperFunctions import check_for_extra_keys, check_for_missing_required_keys
-from resources.success import DeletingSeedSuccess, AddNewSeedSuccess
+from resources.success import DeletingSeedSuccess, AddNewSeedSuccess, GetSeedsSuccess
 from db import db
 from resources.CommonHelperFunctions import validate_seed
 
@@ -26,7 +26,7 @@ class SeedApi(Resource):
             extra_keys = check_for_extra_keys(accepted_keys, request_body)
             if len(extra_keys) > 0:
                 return ExtraFieldsError(extra_keys=extra_keys).GetError()
-            check_for_dup_seed = Seed.query.filter_by(seed=request_body["seed"]).first()
+            check_for_dup_seed = db.session.get(Seed, request_body["seed"])
             if check_for_dup_seed is not None:
                 return SeedAlreadyDefinedError().GetError()
             userObj = db.session.get(User, get_jwt_identity())
@@ -35,9 +35,27 @@ class SeedApi(Resource):
             new_seed = Seed(**request_body)
             new_seed.submitted_by = userObj.uuid
             db.session.add(new_seed)
+            db.session.commit()
             return AddNewSeedSuccess(seed=new_seed.seed).GetError()
         except Exception as e:
             return Error().GetError()
+
+class SeedsApi(Resource):
+    @jwt_required()
+    def get(self):
+        try:
+            user_email = get_jwt_identity()
+            userObj = db.session.get(User, user_email)
+            if userObj is None:
+                return UserNotFoundError().GetError()
+            seeds = Seed.query.filter_by(submitted_by=userObj.uuid).all()
+            seeds_raw_objs = []
+            for seed in seeds:
+                seeds_raw_objs.append(seed.seed)
+            return GetSeedsSuccess(seeds=seeds_raw_objs).GetError()
+        except Exception as e:
+            return Error().GetError()
+        
 
 class SeedIdApi(Resource):
     def get(self, id):

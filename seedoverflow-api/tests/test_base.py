@@ -34,6 +34,10 @@ seed_data = {
     'seed': 'dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
 }
 
+secondary_seed_data = {
+    'seed': 'fff'
+}
+
 user_tracking_data = {
     'user_tracking_id': uuid.uuid4(),
     'user_creation_date': datetime.datetime.utcnow(),
@@ -49,6 +53,7 @@ class TestBase(unittest.TestCase):
         self.user_login_data = user_login_data
         self.user_secondary_login_data = user_secondary_login_data
         self.seed_data = seed_data
+        self.secondary_seed_data = secondary_seed_data
         self.usertracking_data = user_tracking_data
         db.drop_all()
         db.create_all()
@@ -91,11 +96,17 @@ class TestBase(unittest.TestCase):
     def post_seed(self, token=None, seed=seed_data['seed']):
         return self.client().post(f'{base_url}/seed', data=json.dumps({'seed': seed}), content_type="application/json", headers=self.create_auth_header(token))
 
+    def post_secondary_seed(self, token=None, seed=secondary_seed_data['seed']):
+        return self.client().post(f'{base_url}/seed', data=json.dumps({'seed': seed}), content_type="application/json", headers=self.create_auth_header(token))
+
     def get_seed(self, seed_id=None):
         return self.client().get(f'{base_url}/seed/{seed_id}')
 
     def delete_seed(self, token=None, seed_id=None):
         return self.client().delete(f'{base_url}/seed/{seed_id}', headers=self.create_auth_header(token))
+
+    def get_seeds(self, token=None):
+        return self.client().get(f"{base_url}/seeds", headers=self.create_auth_header(token))
     
     def setup_user_and_get_token(self):
         self.register_user()

@@ -3,6 +3,8 @@ import { useContext } from "react"
 import withAuth from "../../components/withAuthProvider"
 import Container from "../../components/common-components/Container/Container"
 import { UserStoreContext } from "../_app"
+import Button from "../../components/common-components/Button/Button"
+import Router from "next/router"
 
 const Profile: NextPage = () => {
 
@@ -16,6 +18,7 @@ const Profile: NextPage = () => {
                 <p>{userData?.username}</p>
                 <p>{userData?.uuid}</p>
             </div>
+            <Button buttonText="Take me to seeds" onClick={() => {Router.push("/profile/seeds")}} />
         </Container>
     )
 }

@@ -54,6 +54,34 @@ class TestSeedRoutes(TestBase):
         res_data = json.loads(res.data)
         self.assertIn("UserNotFoundError", res_data)
     
+class TestSeedsRoutes(TestBase):
+    def test_get_seeds(self):
+        token = self.setup_user_and_get_token()
+        self.post_seed(token=token)
+        self.post_secondary_seed(token=token)
+        seed_res = self.get_seeds(token=token)
+        self.assertEqual(seed_res.status_code, 200)
+        seed_data = json.loads(seed_res.data)
+        self.assertIn("GetSeedsSuccess", seed_data)
+        seeds = seed_data["GetSeedsSuccess"]["Seeds"]
+        self.assertCountEqual([self.seed_data["seed"], self.secondary_seed_data["seed"]], seeds)
+
+    def test_get_seeds_user_not_found(self):
+        token = self.setup_user_and_get_token()
+        self.post_seed(token=token)
+        self.delete_user(token=token)
+        seed_res = self.get_seeds(token=token)
+        self.assertEqual(seed_res.status_code, 403)
+        seed_data = json.loads(seed_res.data)
+        self.assertIn("UserNotFoundError", seed_data)
+
+    def test_get_seeds_empty_result(self):
+        token = self.setup_user_and_get_token()
+        seed_res = self.get_seeds(token=token)
+        self.assertEqual(seed_res.status_code, 200)
+        seed_data = json.loads(seed_res.data)
+        self.assertEqual([], seed_data["GetSeedsSuccess"]["Seeds"])
+
 class TestSeedIdRoutes(TestBase):
 
     def test_get_seed(self):
