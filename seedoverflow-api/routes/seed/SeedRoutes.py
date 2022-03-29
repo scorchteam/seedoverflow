@@ -51,7 +51,7 @@ class SeedsApi(Resource):
             seeds = Seed.query.filter_by(submitted_by=userObj.uuid).all()
             seeds_raw_objs = []
             for seed in seeds:
-                seeds_raw_objs.append(seed.seed)
+                seeds_raw_objs.append({"seed": seed.seed})
             return GetSeedsSuccess(seeds=seeds_raw_objs).GetError()
         except Exception as e:
             return Error().GetError()
