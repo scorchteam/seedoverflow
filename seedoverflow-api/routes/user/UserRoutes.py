@@ -1,10 +1,11 @@
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models.UserModel import User
-from resources.error import UserNotFoundError, Error, DeletingUserError
-from resources.success import DeletingUserSuccess
+from models.User import User
+from resources.response.error.UserError import UserNotFoundError, DeletingUserError
+from resources.response.error.Error import Error
+from resources.response.success.UserSuccess import DeletingUserSuccess
 from db import db
-from models.SeedModel import Seed
+from models.Seed import Seed
 
 class UserApi(Resource):
     @jwt_required()
@@ -31,6 +32,6 @@ class UserApi(Resource):
             check_user_deleted = db.session.get(User, user_email)
             if check_user_deleted is not None:
                 return DeletingUserError().GetError()
-            return DeletingUserSuccess().GetError()
+            return DeletingUserSuccess().GetSuccess()
         except Exception as e:
             return Error().GetError()

@@ -6,7 +6,7 @@ from routes.routes import base_url
 
 user_register_data = {
     'email': 'user@domain.com',
-    'password': 'password',
+    'password': 'password!',
     'first_name': 'first',
     'last_name': 'last',
     'username': 'username'
@@ -14,7 +14,7 @@ user_register_data = {
 
 user_secondary_register_data = {
     'email': 'user2@domain.com',
-    'password': 'password',
+    'password': 'password!',
     'first_name': 'first',
     'last_name': 'last',
     'username': 'username2'
@@ -22,12 +22,12 @@ user_secondary_register_data = {
 
 user_login_data = {
     'email': 'user@domain.com',
-    'password': 'password'
+    'password': 'password!'
 }
 
 user_secondary_login_data = {
     'email': 'user2@domain.com',
-    'password': 'password'
+    'password': 'password!'
 }
 
 seed_data = {

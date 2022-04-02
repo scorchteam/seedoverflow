@@ -1,11 +1,8 @@
-from email.mime import base
-from app import create_app
-from db import db
 import datetime
-import uuid, unittest
+import uuid
 import json
-from models.UserModel import User
-from models.UserTrackingModel import UserTracking
+from models.User import User
+from models.UserTracking import UserTracking
 from routes.routes import base_url
 from flask_jwt_extended import decode_token
 from tests.test_base import TestBase

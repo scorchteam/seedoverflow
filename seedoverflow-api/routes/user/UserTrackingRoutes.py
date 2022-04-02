@@ -1,8 +1,10 @@
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from db import db
-from models.UserModel import User, UserTracking
-from resources.error import Error, UserNotFoundError, UserTrackingNotFound
+from models.User import User, UserTracking
+from resources.response.error.Error import Error
+from resources.response.error.UserError import UserNotFoundError
+from resources.response.error.UserTrackingError import UserTrackingNotFound
 
 class UserTrackingApi(Resource):
     @jwt_required()

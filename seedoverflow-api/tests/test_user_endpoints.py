@@ -1,5 +1,5 @@
 from tests.test_base import TestBase
-from models.UserModel import User
+from models.User import User
 from db import db
 import json
 

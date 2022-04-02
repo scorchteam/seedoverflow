@@ -1,12 +1,13 @@
-from asyncore import file_dispatcher
 from flask_restful import Resource, request
-from flask import jsonify
-from models.SeedModel import Seed
-from models.UserModel import User
+from models.Seed import Seed
+from models.User import User
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from resources.error import EmptyRequestBodyError, Error, ExtraFieldsError, InvalidAccessToSeedError, InvalidSeedError, MissingRequiredFieldsError, SeedNotFoundError, UserNotFoundError, SeedAlreadyDefinedError
+from resources.response.error.Error import Error
+from resources.response.error.CommonError import EmptyRequestBodyError, ExtraFieldsError, MissingRequiredFieldsError
+from resources.response.error.SeedError import InvalidAccessToSeedError, SeedNotFoundError, SeedAlreadyDefinedError, InvalidSeedError
+from resources.response.error.UserError import UserNotFoundError
 from resources.CommonHelperFunctions import check_for_extra_keys, check_for_missing_required_keys
-from resources.success import DeletingSeedSuccess, AddNewSeedSuccess, GetSeedsSuccess
+from resources.response.success.SeedSuccess import DeletingSeedSuccess, AddNewSeedSuccess, GetSeedsSuccess
 from db import db
 from resources.CommonHelperFunctions import validate_seed
 
@@ -36,7 +37,7 @@ class SeedApi(Resource):
             new_seed.submitted_by = userObj.uuid
             db.session.add(new_seed)
             db.session.commit()
-            return AddNewSeedSuccess(seed=new_seed.seed).GetError()
+            return AddNewSeedSuccess(seed=new_seed.seed).GetSuccess()
         except Exception as e:
             return Error().GetError()
 
@@ -52,7 +53,7 @@ class SeedsApi(Resource):
             seeds_raw_objs = []
             for seed in seeds:
                 seeds_raw_objs.append({"seed": seed.seed})
-            return GetSeedsSuccess(seeds=seeds_raw_objs).GetError()
+            return GetSeedsSuccess(seeds=seeds_raw_objs).GetSuccess()
         except Exception as e:
             return Error().GetError()
         
@@ -86,6 +87,6 @@ class SeedIdApi(Resource):
                 return InvalidAccessToSeedError().GetError()
             db.session.delete(seedObj)
             db.session.commit()
-            return DeletingSeedSuccess().GetError()
+            return DeletingSeedSuccess().GetSuccess()
         except Exception as e:
             return Error().GetError()

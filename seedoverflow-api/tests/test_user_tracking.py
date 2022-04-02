@@ -1,6 +1,6 @@
 from tests.test_base import TestBase
-from models.UserTrackingModel import UserTracking
-from models.UserModel import User
+from models.UserTracking import UserTracking
+from models.User import User
 from db import db
 import json
 

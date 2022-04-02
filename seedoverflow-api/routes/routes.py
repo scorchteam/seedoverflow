@@ -1,6 +1,6 @@
-from routes.user.AuthRoutes import UserLoginApi, UserRegisterApi
+from routes.auth.AuthRoutes import UserLoginApi, UserRegisterApi
 from routes.user.UserRoutes import UserApi
-from routes.user.CheckAuthRoutes import CheckAuthApi
+from routes.auth.CheckAuthRoutes import CheckAuthApi
 from routes.seed.SeedRoutes import SeedApi, SeedIdApi, SeedsApi
 from routes.user.UserTrackingRoutes import UserTrackingApi
 

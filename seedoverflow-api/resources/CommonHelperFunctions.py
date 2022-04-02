@@ -1,8 +1,3 @@
-from flask_jwt_extended import get_jwt_identity
-from db import db
-from models.UserModel import User
-from resources.error import Error, UserNotFoundError
-
 def check_for_missing_required_keys(required_keys=[], provided_keys={}):
     keys_not_found = []
     if len(required_keys) == 0:
