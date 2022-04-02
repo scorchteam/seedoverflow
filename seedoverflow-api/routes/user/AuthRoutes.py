@@ -31,6 +31,9 @@ class UserRegisterApi(Resource):
             if existing_user is not None:
                 return UserEmailTakenError().GetError()
             user = User(**request_body)
+            user_password_error = user.validate_password_strength()
+            if user_password_error is not None:
+                return user_password_error.GetError()
             user.hash_password()
             db.session.add(user)
             db.session.flush()

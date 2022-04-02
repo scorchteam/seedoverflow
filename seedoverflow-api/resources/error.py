@@ -74,3 +74,12 @@ class UserTrackingNotFound(Error):
         self.status_code = status_code
         self.description = description
         self.title = self.__class__.__name__
+    
+class NewUserPasswordStrengthError(Error):
+    def __init__(self, status_code="403", description="Bad password strength", error="Bad password strength"):
+        self.status_code = status_code
+        self.description = {
+            "Description": description,
+            "Error": error
+        }
+        self.title = self.__class__.__name__
