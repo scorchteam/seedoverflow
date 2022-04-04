@@ -1,6 +1,7 @@
 from asyncore import file_dispatcher
 from flask_restful import Resource, request
 from flask import jsonify
+import json
 from models.SeedModel import Seed
 from models.UserModel import User
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -54,6 +55,29 @@ class SeedsApi(Resource):
                 seeds_raw_objs.append({"seed": seed.seed})
             return GetSeedsSuccess(seeds=seeds_raw_objs).GetError()
         except Exception as e:
+            return Error().GetError()
+
+class RecentSeedsApi(Resource):
+    def get(self, id):
+        try:
+            seedList = Seed.query\
+                .join(User, Seed.submitted_by==User.uuid)\
+                .add_columns(User.username)\
+                .order_by(Seed.seed_creation_date.desc())\
+                .paginate()
+            for x in range(1, int(id)):
+                seedList = seedList.next()
+            final_seeds = []
+            print(len(seedList.items), flush=True)
+            for seed in seedList.items:
+                new_seed = {
+                    "seed": seed.Seed.seed,
+                    "submitted_by": seed.username
+                }
+                final_seeds.append(new_seed)
+            return final_seeds
+        except Exception as e:
+            print(e, flush=True)
             return Error().GetError()
         
 

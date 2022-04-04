@@ -1,7 +1,9 @@
 import { API_URL } from "../pages/_app";
 
 export interface Seed {
-    seed: string
+    seed: string,
+    submitted_by_username: string,
+    seed_creation_date: Date
 }
 
 export const GetSeedsPromise = async (token: string) => {
