@@ -1,12 +1,13 @@
 from db import db
 import datetime
-from sqlalchemy import Column, String, DateTime, ForeignKey
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from flask_bcrypt import generate_password_hash, check_password_hash
 import uuid
-from models.SeedModel import Seed
-from models.UserTrackingModel import UserTracking
+from models.Seed import Seed
+from models.UserTracking import UserTracking
+from resources.response.error.UserError import NewUserPasswordStrengthError
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -24,6 +25,15 @@ class User(db.Model):
     
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def validate_password_strength(self):
+        if (len(self.password) == 0):
+            return NewUserPasswordStrengthError(error="Password cannot be blank")
+        if (len(self.password) < 8):
+            return NewUserPasswordStrengthError(error="Password must have a length of at least 8")
+        if (self.password.isalnum()):
+            return NewUserPasswordStrengthError(error="Password must contain at least one special character")
+        return None
     
     def get_user_object(self):
         user_object = {

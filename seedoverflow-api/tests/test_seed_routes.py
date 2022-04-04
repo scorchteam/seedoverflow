@@ -1,6 +1,4 @@
 from tests.test_base import TestBase
-from models.UserTrackingModel import UserTracking
-from models.UserModel import User
 from db import db
 from routes.routes import base_url
 import json
@@ -64,7 +62,7 @@ class TestSeedsRoutes(TestBase):
         seed_data = json.loads(seed_res.data)
         self.assertIn("GetSeedsSuccess", seed_data)
         seeds = seed_data["GetSeedsSuccess"]["Seeds"]
-        self.assertCountEqual([self.seed_data["seed"], self.secondary_seed_data["seed"]], seeds)
+        self.assertCountEqual([{"seed": self.seed_data["seed"]}, {"seed": self.secondary_seed_data["seed"]}], seeds)
 
     def test_get_seeds_user_not_found(self):
         token = self.setup_user_and_get_token()

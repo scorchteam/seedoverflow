@@ -1,10 +1,6 @@
-from app import create_app
-from db import db
-import datetime
-import uuid, unittest
-from models.UserModel import User
-from models.SeedModel import Seed
-from models.UserTrackingModel import UserTracking
+from models.User import User
+from models.Seed import Seed
+from models.UserTracking import UserTracking
 from tests.test_base import TestBase
 
 class ModelTestCase(TestBase):

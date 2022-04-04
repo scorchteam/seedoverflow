@@ -1,17 +1,16 @@
-from flask import Response, request
+from flask import request
 import datetime
 from flask_restful import Resource
-from flask_bcrypt import generate_password_hash
 from flask_jwt_extended import create_access_token
 import string
 from db import db
-from models.UserModel import User, UserTracking
-from resources.error import EmptyRequestBodyError, MissingRequiredFieldsError, UserEmailTakenError, UserNotFoundError, Error, ExtraFieldsError
-from resources.success import LoginUserSuccess, RegisterUserSuccess
+from models.User import User, UserTracking
+from resources.response.error.CommonError import EmptyRequestBodyError, MissingRequiredFieldsError, ExtraFieldsError
+from resources.response.error.Error import Error
+from resources.response.error.UserError import UserEmailTakenError, UserNotFoundError
+from resources.response.success.AuthSuccess import LoginUserSuccess, RegisterUserSuccess
 from resources.CommonHelperFunctions import check_for_extra_keys, check_for_missing_required_keys
 import datetime
-
-letters = string.ascii_lowercase
 
 class UserRegisterApi(Resource):
     def post(self):
@@ -31,6 +30,9 @@ class UserRegisterApi(Resource):
             if existing_user is not None:
                 return UserEmailTakenError().GetError()
             user = User(**request_body)
+            user_password_error = user.validate_password_strength()
+            if user_password_error is not None:
+                return user_password_error.GetError()
             user.hash_password()
             db.session.add(user)
             db.session.flush()
@@ -41,7 +43,7 @@ class UserRegisterApi(Resource):
                 usertracking = UserTracking(user_tracking_id=user_id)
             db.session.add(usertracking)
             db.session.commit()
-            return RegisterUserSuccess(uuid=str(user_id)).GetError()
+            return RegisterUserSuccess(uuid=str(user_id)).GetSuccess()
         except Exception as e:
             print(e, flush=True)
             return Error().GetError()
@@ -79,7 +81,7 @@ class UserLoginApi(Resource):
             db.session.commit()
             expires = datetime.timedelta(days=7)
             access_token = create_access_token(identity=str(user.email), expires_delta=expires)
-            return LoginUserSuccess(access_token=access_token).GetError()
+            return LoginUserSuccess(access_token=access_token).GetSuccess()
         except Exception as e:
             print(e, flush=True)
             return Error().GetError()

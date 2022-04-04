@@ -2,7 +2,7 @@ from db import db
 import datetime
 from sqlalchemy import Column, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
-from models.SeedModel import Seed
+from models.Seed import Seed
 
 class UserTracking(db.Model):
     __tablename__ = 'usertracking'

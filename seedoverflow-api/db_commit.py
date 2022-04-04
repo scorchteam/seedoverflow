@@ -1,7 +1,7 @@
 from app import app
 from db import db
-from models.UserModel import User
-from models.SeedModel import Seed
+from models.User import User
+from models.Seed import Seed
 
 app.app_context().push()
 db.create_all()
