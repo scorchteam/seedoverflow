@@ -16,7 +16,15 @@ interface errors {
     username?: string
 }
 
-const validate = values => {
+interface RegisterDetails {
+    email: string,
+    password: string,
+    first_name: string,
+    last_name: string,
+    username: string
+}
+
+const validate = (values: RegisterDetails) => {
     const errors: errors = {};
 
     if (!/^[a-zA-Z]+$/i.test(values.first_name) && values.first_name !== '') {
