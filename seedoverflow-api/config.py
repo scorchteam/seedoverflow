@@ -18,9 +18,13 @@ class TestingConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/test'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+class ProductionConfig(Config):
+    DEBUG = False
 
 app_config = {
     'development': DevelopmentConfig,
     'docker-dev': DockerDevelopmentConfig,
-    'testing': TestingConfig
+    'testing': TestingConfig,
+    'prod': ProductionConfig
 }
