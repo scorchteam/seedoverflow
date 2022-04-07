@@ -22,34 +22,37 @@ const withoutAuth = (WrappedComponent: FunctionComponent) => {
 
         var timer = 30;
 
-        useEffect(async () => {
-            const accessToken = localStorage.getItem("token");
-            if (!accessToken) {
-                setVerified(false);
-                return
-            }
-            const data = await checkUserAuth(accessToken)
-                .catch(error => {
-                    if (!error.response) {
-                        handleBadConnection();
-                    }
-                })
-            if (data && Object.keys(data).length > 0) {
-                if (handleResponseSuccess(data)) {
-                    setVerified(true);
-                    localStorage.removeItem("retry");
-                    Router.replace("/")
-                    return;
+        useEffect(() => {
+            const asyncDetermineAuth = async () => {
+                const accessToken = localStorage.getItem("token");
+                if (!accessToken) {
+                    setVerified(false);
+                    return
                 }
-                const responseError = handleResponseError(data);
-                if (responseError) {
-                    if (responseError === ErrorResponse.UserNotFoundError) {
-                        localStorage.removeItem("token");
-                        setVerified(false);
+                const data = await checkUserAuth(accessToken)
+                    .catch(error => {
+                        if (!error.response) {
+                            handleBadConnection();
+                        }
+                    })
+                if (data && Object.keys(data).length > 0) {
+                    if (handleResponseSuccess(data)) {
+                        setVerified(true);
+                        localStorage.removeItem("retry");
+                        Router.replace("/")
                         return;
                     }
+                    const responseError = handleResponseError(data);
+                    if (responseError) {
+                        if (responseError === ErrorResponse.UserNotFoundError) {
+                            localStorage.removeItem("token");
+                            setVerified(false);
+                            return;
+                        }
+                    }
                 }
             }
+            asyncDetermineAuth();
         }, []);
 
         const handleBadConnection = (error: any = null) => {
