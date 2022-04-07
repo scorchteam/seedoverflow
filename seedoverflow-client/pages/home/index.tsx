@@ -16,7 +16,7 @@ const Home: NextPage = () => {
                     <></>
                 }
                 center={
-                    <SeedList seedList={[{"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}, {"seed": "ewfwefwefwe", submitted_by_username: "nprussen", seed_creation_date: new Date()}]} />
+                    <></>
                 }
                 right={
                     <></>

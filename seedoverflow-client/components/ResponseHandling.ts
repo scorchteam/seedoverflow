@@ -15,6 +15,13 @@ export enum ErrorResponse {
     UserEmailTakenError = "UserEmailTakenError",
 }
 
+export enum SeedErrorResponse {
+    InvalidSeedError = "InvalidSeedError",
+    SeedNotFoundError = "SeedNotFoundError",
+    InvalidAccessToSeedError = "InvalidAccessToSeedError",
+    SeedAlreadyDefinedError = "SeedAlreadyDefinedError"
+}
+
 /**
  * Handles successful http responses and spawns specific toasts
  * @param response response data

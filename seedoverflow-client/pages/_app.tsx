@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { ErrorResponse, handleResponseError } from '../components/ResponseHandling'
 import { ToastStore } from '../components/Toast'
 import { ThemeStore } from '../components/Theme'
+import { GetSeedsPromise, Seed, SeedStore } from '../components/Seed'
 
 export const API_URL = "http://localhost:5000/api/v1"
 const userStore: UserStore = {
@@ -25,15 +26,23 @@ const themeStore: ThemeStore = {
   darkModeEnabled: undefined,
   invertDarkMode: ()=>{}
 };
+const seedStore: SeedStore = {
+  seeds: [],
+  seedStoreUpdateTime: undefined,
+  updateSeeds: ()=>{}
+}
 export const UserStoreContext = createContext(userStore);
 export const ToastStoreContext = createContext(toastStore);
 export const ThemeStoreContext = createContext(themeStore);
+export const SeedStoreContext = createContext(seedStore);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [userData, applyUserData] = useState<User>();
   const [userAccessToken, applyUserAccessToken] = useState<string>("");
   const [userLoggedIn, applyUserLoggedIn] = useState<boolean>(false);
   const [darkModeEnabled, updateDarkModeEnabled] = useState<boolean>();
+  const [seeds, applySeeds] = useState<Seed[]>([]);
+  const [seedStoreUpdateTime, updateSeedStoreUpdateTime] = useState<Date>();
 
   const toastStyles = `bg-green text-light-text dark:bg-dark-comp dark:text-dark-text`;
 
@@ -69,12 +78,39 @@ function MyApp({ Component, pageProps }: AppProps) {
       })
   }, [userAccessToken])
 
+  useEffect(() => {
+    if (!userLoggedIn || !userAccessToken) 
+      return
+    GetSeedsPromise(userAccessToken)
+      .then(response => response.json())
+      .then(data => {
+        if (data) {
+          const responseError = handleResponseError(data, toastError);
+          if (responseError && responseError === ErrorResponse.UserNotFoundError) {
+            logout()
+            return
+          }
+        } else {
+          toastError("An internal error occurred")
+          return
+        }
+        applySeeds(data.GetSeedsSuccess.Seeds as Seed[])
+        updateSeedStoreUpdateTime(new Date());
+      })
+  }, [userLoggedIn])
+
   const updateUserData = (userData: User) => {
-    applyUserData(userData);
+    applyUserData({...userData});
   }
 
   const updateUserAccessToken = (userAccessToken: string) => {
     applyUserAccessToken(userAccessToken);
+  }
+
+  const updateSeeds = (seeds: Seed[] | undefined) => {
+    if (!seeds)
+      return
+    applySeeds([...seeds]);
   }
 
   const logout = () => {
@@ -103,10 +139,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ThemeStoreContext.Provider value={{
           ...themeStore,
           invertDarkMode}}>
-          <Layout>
-            <Component {...pageProps}/>
-            <Toaster />
-          </Layout>
+          <SeedStoreContext.Provider value={{updateSeeds, seeds, seedStoreUpdateTime}}>
+            <Layout>
+              <Component {...pageProps}/>
+              <Toaster />
+            </Layout>
+          </SeedStoreContext.Provider>
         </ThemeStoreContext.Provider>
       </ToastStoreContext.Provider>
     </UserStoreContext.Provider>

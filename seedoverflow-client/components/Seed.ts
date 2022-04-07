@@ -2,8 +2,19 @@ import { API_URL } from "../pages/_app";
 
 export interface Seed {
     seed: string,
-    submitted_by_username: string,
-    seed_creation_date: Date
+    submitted_by?: string,
+    seed_creation_date?: Date,
+    submitted_by_username: string
+}
+
+export interface NewSeedDto {
+    seed: string
+}
+
+export interface SeedStore {
+    seeds: Seed[],
+    seedStoreUpdateTime?: Date,
+    updateSeeds(seeds: Seed[]): any,
 }
 
 export const GetSeedsPromise = async (token: string) => {
@@ -18,7 +29,7 @@ export const GetSeedsPromise = async (token: string) => {
     return fetch(url, requestOptions);
 }
 
-export const PostSeedPromise = async (token: string, seed: Seed) => {
+export const PostSeedPromise = async (token: string, seed: NewSeedDto) => {
     const requestOptions = {
         method: "POST",
         headers: {

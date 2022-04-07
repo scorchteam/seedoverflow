@@ -3,28 +3,18 @@ import withAuth from "../../../components/withAuthProvider"
 import Container from "../../../components/common-components/Container/Container"
 import Button from "../../../components/common-components/Button/Button"
 import { useContext, useEffect, useState } from "react"
-import { DeleteSeedPromise, GetSeedPromise, GetSeedsPromise, PostSeedPromise, Seed } from "../../../components/Seed"
-import { ToastStoreContext, UserStoreContext } from "../../_app"
+import { DeleteSeedPromise, GetSeedPromise, GetSeedsPromise, NewSeedDto, PostSeedPromise, Seed } from "../../../components/Seed"
+import { SeedStoreContext, ToastStoreContext, UserStoreContext } from "../../_app"
+import SeedList from "../../../components/common-components/SeedList/SeedList"
 
 const Profile: NextPage = () => {
 
-    const [seeds, setSeeds] = useState<Seed[]>([])
-    const { userAccessToken } = useContext(UserStoreContext);
+    const { userAccessToken, userData } = useContext(UserStoreContext);
     const { toastError, toastSuccess } = useContext(ToastStoreContext);
-
-    useEffect(async () => {
-        if (!userAccessToken)
-            return
-        const seed_response = await GetSeedsPromise(userAccessToken)
-            .then(response => response.json())
-        if ("GetSeedsSuccess" in seed_response) {
-            setSeeds(seed_response["GetSeedsSuccess"]["Seeds"])
-        }
-    }, [userAccessToken])
+    const { seeds, updateSeeds } = useContext(SeedStoreContext);
 
     useEffect(() => {
-        if (!seeds)
-            return
+        console.log(seeds);
     }, [seeds])
 
     const makeSeed = async () => {
@@ -32,8 +22,8 @@ const Profile: NextPage = () => {
             toastError("Not authenticated yet");
             return;
         }
-        const new_seed_id = (Math.random() + 1).toString(36).substring(7);
-        let new_seed: Seed = {
+        const new_seed_id = (Math.random() + 1).toString(36).substring(3);
+        let new_seed: NewSeedDto = {
             seed: new_seed_id
         }
         const seed_response = await PostSeedPromise(userAccessToken, new_seed)
@@ -45,10 +35,13 @@ const Profile: NextPage = () => {
             if (Object.keys(get_new_seed).length > 0) {
                 let new_seed_array: Seed[] = seeds;
                 let new_seed: Seed = {
-                    seed: get_new_seed.seed
+                    seed: get_new_seed.seed,
+                    seed_creation_date: new Date(),
+                    submitted_by: userData?.uuid,
+                    submitted_by_username: userData?.username ?? "undefined"
                 }
                 new_seed_array.push(new_seed)
-                setSeeds([...new_seed_array]);
+                updateSeeds([...new_seed_array]);
             }
         }
     }
@@ -61,16 +54,20 @@ const Profile: NextPage = () => {
         const delete_response = await DeleteSeedPromise(userAccessToken, seedId)
             .then(response => response.json())
         if ("DeletingSeedSuccess" in delete_response) {
+            toastSuccess(`Deleted seed: ['${seedId}']`)
             let new_seed_array: Seed[] = seeds;
             let index = seeds.findIndex((seed) => {
                 return seed.seed === seedId;
             })
             new_seed_array.splice(index, 1);
-            setSeeds([...new_seed_array]);
+            updateSeeds([...new_seed_array]);
         }
     }
 
     const renderSeeds = () => {
+        console.log(seeds);
+        if (!seeds)
+            return <></>
         let index = 0;
         const list = seeds.map((seed) => {
             index++;
@@ -82,9 +79,11 @@ const Profile: NextPage = () => {
     return (
         <Container>
             <Button buttonText="Make me a seed" onClick={makeSeed}  />
-            <ul>
-                {renderSeeds()}
-            </ul>
+            <br></br>
+            {
+                seeds &&
+                <SeedList listType={'minimal'} seedList={seeds} onClickDelete={deleteSeed} />
+            }
         </Container>
     )
 }

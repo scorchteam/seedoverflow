@@ -17,7 +17,6 @@ importlib-metadata==4.8.3
 itsdangerous==2.0.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1
-pkg-resources==0.0.0
 psycopg2-binary==2.9.3
 pycparser==2.21
 PyJWT==2.3.0

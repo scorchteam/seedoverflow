@@ -18,7 +18,7 @@ interface LoginDetails {
     password: string
 }
 
-const validate = values => {
+const validate = (values: LoginDetails) => {
     const errors: errors = {};
     if (!values.email) {
         errors.email = 'Email address cannot be blank';
