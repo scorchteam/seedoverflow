@@ -21,7 +21,7 @@ def create_app(config_name="development"):
     jwt = JWTManager(app)
     bcrypt = Bcrypt(app)
 
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "https://seedoverflow-prod-app.herokuapp.com"]}})
 
     initialize_db(app)
     initalize_routes(api)
