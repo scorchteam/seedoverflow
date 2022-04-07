@@ -20,12 +20,12 @@ const SeedCard = (props: props) => {
 
     return (
         <li className="group w-full will-change-transform flex flex-col items-center justify-center">
-            <div className="dark:bg-dark-comp rounded-lg transition ease-in-out  w-full relative">
+            <div className="bg-light-comp dark:bg-dark-comp rounded-lg transition ease-in-out  w-full relative">
                 <div className="pt-3 px-3 seed-card-header flex justify-start items-end gap-2 mb-3 w-full">
                     {
                         props.listType === "full" &&
                         <>
-                            <div className="h-11 w-11 rounded-lg bg-purple"></div>
+                            <div className="h-11 w-11 rounded-lg bg-darker-green dark:bg-purple"></div>
                             <div className="flex flex-col">
                                 <p className="w-[12ch] xs:w-auto overflow-hidden">{props.seed.submitted_by_username}</p>
                                 <p className="italic text-sm">{props.seed.seed_creation_date && new Date(props.seed.seed_creation_date).toLocaleDateString()}</p>
@@ -37,7 +37,7 @@ const SeedCard = (props: props) => {
                         <>
                             <div className="flex flex-col xs:flex-row xs:justify-center xs:items-center xs:gap-2">
                                 <p className="w-auto max-w-[12ch] sm:max-w-max overflow-clip">{props.seed.submitted_by_username}</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" className="fill-purple hidden xs:block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" className="fill-darker-green dark:fill-purple hidden xs:block">
                                     <circle cx="2" cy="2" r="2" />
                                 </svg>
                                 <p className="italic text-sm">{props.seed.seed_creation_date && new Date(props.seed.seed_creation_date).toLocaleDateString()}</p>
@@ -54,10 +54,10 @@ const SeedCard = (props: props) => {
                         text={props.seed.seed}
                         onCopy={() => { toastSuccess("Copied seed successfully!") }}>
                             <div className="grid justify-center items-center grid-cols-[auto_1fr] cursor-pointer">
-                                <div className="p-2 bg-purple rounded-l-lg">
-                                    <FontAwesomeIcon icon={faCopy} />
+                                <div className="p-2 bg-darker-green dark:bg-purple rounded-l-lg">
+                                    <FontAwesomeIcon icon={faCopy} className='text-light dark:text-dark' />
                                 </div>
-                                <div className="block overflow-hidden overflow-ellipsis whitespace-nowrap bg-dark p-2 rounded-r-lg">{props.seed.seed}</div>
+                                <div className="block overflow-hidden overflow-ellipsis whitespace-nowrap bg-light dark:bg-dark p-2 rounded-r-lg">{props.seed.seed}</div>
                             </div>
                     </CopyToClipboard>
                 </div>
@@ -70,11 +70,11 @@ const SeedCard = (props: props) => {
                 </div>
             } */}
             <div className="absolute right-0 top-0 w-auto h-auto flex bg-danger rounded-tr-lg rounded-bl-lg">
-                <div className="bg-purple p-1 px-2 rounded-bl-lg cursor-pointer">
-                    <FontAwesomeIcon icon={faEdit} />
+                <div className="bg-darker-green dark:bg-purple p-1 px-2 rounded-bl-lg cursor-pointer">
+                    <FontAwesomeIcon icon={faEdit} className='text-light dark:text-dark'/>
                 </div>
                 <div className="p-1 px-2 rounded-tr-lg cursor-pointer" onClick={() => props.onClickDelete(props.seed.seed)}>
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTrash} className='text-light dark:text-dark' />
                 </div>
             </div>
             {/* <div className="absolute right-0 top-0 z-100 p-1 w-16 bg-purple rounded-tr-lg rounded-bl-lg justify-center items-center text-center bold transition-all ease-in-out duration-150 cursor-pointer flex md:hidden scale-x-0 group-hover:scale-x-100 origin-right">
