@@ -45,4 +45,4 @@ jobs:
         working-directory: seedoverflow-client
       - name: Build
         run: npm run build
-        working-directory: seedoverflow-api
+        working-directory: seedoverflow-client
