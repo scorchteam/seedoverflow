@@ -16,7 +16,7 @@ const NavLink = (props: props) => {
 
     return (
         <Link href={props.href.toLowerCase()}>
-           <a className={`${styles.a} dark:text-purple dark:hover:text-purple dark:after:bg-purple`}>{props.linkText}</a> 
+           <a className={`${styles.a} dark:text-turquoise dark:hover:text-turquoise dark:after:bg-turquoise`}>{props.linkText}</a> 
         </Link>
     )
 }

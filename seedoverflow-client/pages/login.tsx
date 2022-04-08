@@ -20,7 +20,7 @@ const Login: NextPage = () => {
                 }
                 <div className="w-full justify-center flex flex-row gap-1 mt-4">
                     {!registerFormView ? <>Not registered?</> : <>Already registered?</>} 
-                    <a onClick={() => {setRegisterFormView(!registerFormView)}} className="text-purple cursor-pointer">
+                    <a onClick={() => {setRegisterFormView(!registerFormView)}} className="text-turquoise cursor-pointer">
                         {
                             registerFormView ?
                             <>Login Now</> :

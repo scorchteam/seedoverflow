@@ -13,6 +13,7 @@ const Profile: NextPage = () => {
     const { userAccessToken, userData } = useContext(UserStoreContext);
     const { toastError, toastSuccess } = useContext(ToastStoreContext);
     const { seeds, updateSeeds } = useContext(SeedStoreContext);
+    const [seedListType, updateSeedListType] = useState<'minimal' | 'full'>('minimal');
     
 
     useEffect(() => {
@@ -80,13 +81,19 @@ const Profile: NextPage = () => {
         return list
     }
 
+    const invertListType = () => {
+        updateSeedListType(seedListType === 'minimal' ? 'full' : 'minimal')
+    }
+
     return (
         <Container>
             <Button buttonText="Make me a seed" onClick={makeSeed} loading={makingSeed} />
             <br></br>
+            <Button buttonText={`Change List Type. Current: ${seedListType}`} onClick={invertListType} />
+            <br></br>
             {
                 seeds &&
-                <SeedList listType={'minimal'} seedList={seeds} onClickDelete={deleteSeed} />
+                <SeedList listType={seedListType} seedList={seeds} onClickDelete={deleteSeed} />
             }
         </Container>
     )
