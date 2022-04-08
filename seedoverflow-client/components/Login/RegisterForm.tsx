@@ -28,29 +28,43 @@ const validate = (values: RegisterDetails) => {
     const errors: errors = {};
 
     if (!/^[a-zA-Z]+$/i.test(values.first_name) && values.first_name !== '') {
-        errors.first_name = 'Invalid first name'
+        errors.first_name = 'First name must only contain alphanumeric characters'
+    } else if (values.first_name.length > 64) {
+        errors.first_name = 'First name must be 64 characters or less'
     }
 
     if (!/^[a-zA-Z]+$/i.test(values.last_name) && values.last_name !== '') {
-        errors.last_name = 'Invalid last name'
+        errors.last_name = 'Last name must only contain alphanumeric characters'
+    } else if (values.last_name.length > 64) {
+        errors.last_name = 'Last name must be 64 characters or less'
     }
 
     if (!values.username) {
         errors.username = 'Username cannot be blank'
     } else if (!/^[0-9a-zA-Z]+$/i.test(values.username)) {
-        errors.username = 'Invalid username'
+        errors.username = 'Username must only contain alphanumeric characters'
+    } else if (values.username.length > 32) {
+        errors.username = 'Username must be 32 characters or less'
+    } else if (values.username.length < 3)  {
+        errors.username = 'Username must be at least 3 characters long'
     }
 
     if (!values.email) {
         errors.email = 'Email address cannot be blank';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
+    } else if (values.email.length > 320) {
+        errors.email = 'Email address must be 320 characters or less'
     }
 
     if (!values.password) {
         errors.password = 'Password cannot be blank'
     } else if (values.password.length < 8) {
         errors.password = 'Password must be at least 8 characters long'
+    } else if (values.password.length > 128) {
+        errors.password = 'Password must 128 characters or less'
+    } else if (!/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/i.test(values.password)) {
+        errors.password = 'Password must contain a special character'
     }
 
     return errors;
@@ -76,12 +90,16 @@ const RegisterForm = () => {
         }
         const response = await RegisterNewUserPromise(userDetails)
             .then(response => response.json())
+            .then(data => {
+                setRegisterLoading(false);
+                return data;
+            })
             .catch((error) => {
                 toastError("Unable to register user");
+                setRegisterLoading(false);
             });
         var result = handleResponseError(response, toastError);
         if (result) {
-            setRegisterLoading(false);
             if (Object.keys(response).includes("UserEmailTakenError")) {
                 setSubmitError('The email provided has been taken')
                 return;
