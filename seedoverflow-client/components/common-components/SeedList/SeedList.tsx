@@ -1,6 +1,5 @@
 import SeedCard from "../../../components/common-components/Seed/SeedCard"
 import { Seed } from "../../Seed"
-import SeedCardMinimal from "../Seed/SeedCardMinimal"
 interface props {
     seedList: Seed[],
     listType: 'minimal' | 'full',
