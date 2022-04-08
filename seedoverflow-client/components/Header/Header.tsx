@@ -43,9 +43,9 @@ const Header = () => {
 
   return (
     <div className={``}>
-      <header className="h-auto w-full md:container md:mx-auto">
-        <nav className={`bg-light-yellow dark:bg-dark text-light-text dark:text-dark-text flex flex-col md:flex-row md:items-center md:justify-between h-full px-4 py-4`}>
-          <div className="flex justify-between items-center">
+      <header className="h-auto w-full md:container md:mx-auto mb-4">
+        <nav className={`bg-light-yellow dark:bg-dark text-light-text dark:text-dark-text flex flex-col md:flex-row md:items-center md:justify-between h-full`}>
+          <div className={`flex justify-between items-center pt-4 px-4`}>
             <div className="flex gap-4 items-center">
               <Link href={"/"}>
                 <a>

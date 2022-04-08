@@ -33,7 +33,7 @@ const HeaderLinksMobile = (props: props) => {
         <AnimateHeight
         duration={ 400 }
         height={animateHeightHeight}>
-            <ul className={styles.headerNavLinkUl}>
+            <ul className={"flex flex-col px-4 pb-4 md:flex-row md:items-center gap-1 md:gap-4 overflow-hidden md:h-auto pt-4 bg-light dark:bg-dark-comp"}>
                 {renderNavLinks(props)}
                 <li key={998} className="w-fit">
                     <ThemeButton />
