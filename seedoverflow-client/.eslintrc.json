@@ -4,6 +4,8 @@
     "react-hooks/exhaustive-deps": "off",
     "@next/next/no-sync-scripts": "off",
     "jsx-a11y/alt-text": "off",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-img-element": "off",
+    "react/display-name": "off"
   }
 }
