@@ -11,15 +11,15 @@ const Login: NextPage = () => {
 
     return (
         <Container>
-            <div className="max-w-lg mx-auto bg-light-comp dark:bg-dark-comp rounded-lg p-4">
-                <h1 className="text-center text-2xl">{registerFormView ? <>Register</> : <>Login</>}</h1>
+            <div className="max-w-lg mx-auto bg-light-yellow dark:bg-dark rounded-lg p-4">
+                <h1 className="text-center text-2xl mb-6">{registerFormView ? <>Register</> : <>Login</>}</h1>
                 {
                     registerFormView ?
                     <RegisterForm /> :
                     <LoginForm />
                 }
                 <div className="w-full justify-center flex flex-row gap-1 mt-4">
-                    {!registerFormView ? <>Not registered?</> : <>Already registered?</>} 
+                    {!registerFormView ? <>Not a member?</> : <>Already registered?</>} 
                     <a onClick={() => {setRegisterFormView(!registerFormView)}} className="text-turquoise cursor-pointer">
                         {
                             registerFormView ?
