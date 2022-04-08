@@ -62,7 +62,7 @@ class TestSeedsRoutes(TestBase):
         seed_data = json.loads(seed_res.data)
         self.assertIn("GetSeedsSuccess", seed_data)
         seeds = seed_data["GetSeedsSuccess"]["Seeds"]
-        self.assertCountEqual([{"seed": self.seed_data["seed"]}, {"seed": self.secondary_seed_data["seed"]}], seeds)
+        self.assertEqual(len(seeds), 2)
 
     def test_get_seeds_user_not_found(self):
         token = self.setup_user_and_get_token()
