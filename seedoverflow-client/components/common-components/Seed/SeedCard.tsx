@@ -13,7 +13,6 @@ interface props {
     onClickEdit?: any
 }
 
-/* TODO: Add copy seed button */
 const SeedCard = (props: props) => {
     const { userData } = useContext(UserStoreContext);
     const { toastSuccess } = useContext(ToastStoreContext);

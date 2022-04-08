@@ -9,9 +9,11 @@ import SeedList from "../../../components/common-components/SeedList/SeedList"
 
 const Profile: NextPage = () => {
 
+    const [makingSeed, updateMakingSeed] = useState<boolean>(false);
     const { userAccessToken, userData } = useContext(UserStoreContext);
     const { toastError, toastSuccess } = useContext(ToastStoreContext);
     const { seeds, updateSeeds } = useContext(SeedStoreContext);
+    
 
     useEffect(() => {
         console.log(seeds);
@@ -22,6 +24,7 @@ const Profile: NextPage = () => {
             toastError("Not authenticated yet");
             return;
         }
+        updateMakingSeed(true);
         const new_seed_id = (Math.random() + 1).toString(36).substring(3);
         let new_seed: NewSeedDto = {
             seed: new_seed_id
@@ -42,6 +45,7 @@ const Profile: NextPage = () => {
                 }
                 new_seed_array.push(new_seed)
                 updateSeeds([...new_seed_array]);
+                updateMakingSeed(false);
             }
         }
     }
@@ -78,7 +82,7 @@ const Profile: NextPage = () => {
 
     return (
         <Container>
-            <Button buttonText="Make me a seed" onClick={makeSeed}  />
+            <Button buttonText="Make me a seed" onClick={makeSeed} loading={makingSeed} />
             <br></br>
             {
                 seeds &&

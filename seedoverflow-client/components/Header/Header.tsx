@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import HeaderHamburger from "./HeaderHamburger/HeaderHamburger";
 import HeaderLinksMobile from "./HeaderLinks/HeaderLinksMobile";
 import HeaderLinksDesktop from "./HeaderLinks/HeaderLinksDesktop";
 import Link from "next/link";
+import { HeaderLink } from "./HeaderLinks/HeaderLinkHelpers";
+import { UserStoreContext } from "../../pages/_app";
 
 /**
  * Renders the header component to be used site-wide
@@ -11,9 +13,11 @@ import Link from "next/link";
  */
 const Header = () => {
   //State
-  const [navLinks] = useState<string[]>(["Profile"]);
+  const [navLinks] = useState<HeaderLink[]>([{linkText: "Profile", needAuth: true, href: "profile"}, {linkText: "Home", needAuth: false, href: ""}]);
   const [collapsed, updateCollapsed] = useState<boolean>(true);
   const [viewWidth, updateViewWidth] = useState<number>();
+
+  const { userLoggedIn } = useContext(UserStoreContext);
 
   //non-reactive vars
   const mobileBreakpoint = 768;
@@ -55,9 +59,11 @@ const Header = () => {
             isInMobile() ?
             <HeaderLinksMobile
               linkTextArray={navLinks}
-              collapsed={collapsed}/> :
+              collapsed={collapsed}
+              userLoggedIn={userLoggedIn !== undefined && userLoggedIn}/> :
             <HeaderLinksDesktop
-              linkTextArray={navLinks}/>
+              linkTextArray={navLinks}
+              userLoggedIn={userLoggedIn !== undefined && userLoggedIn}/>
           }
         </nav>
       </header>
