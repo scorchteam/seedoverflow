@@ -24,10 +24,18 @@ const validate = (values: LoginDetails) => {
         errors.email = 'Email address cannot be blank';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address';
+    } else if (values.email.length > 320) {
+        errors.email = 'Email address must be 320 characters or less'
     }
 
     if (!values.password) {
         errors.password = 'Password cannot be blank'
+    } else if (values.password.length < 8) {
+        errors.password = 'Password must be at least 8 characters long'
+    } else if (values.password.length > 128) {
+        errors.password = 'Password must 128 characters or less'
+    } else if (!/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/i.test(values.password)) {
+        errors.password = 'Password must contain a special character'
     }
 
     return errors;
@@ -48,12 +56,16 @@ const LoginForm = () => {
         setLoginLoading(true);
         const response = await LoginUserPromise(loginDetails)
             .then(response => response.json())
+            .then(data => {
+                setLoginLoading(false);
+                return data;
+            })
             .catch((error) => {
                 toastError("Unable to login user");
+                setLoginLoading(false);
             })
         var result = handleResponseError(response, toastError);
         if (result) {
-            setLoginLoading(false);
             if (Object.keys(response).includes("UserNotFoundError")) {
                 setSubmitError('User with these credentials not found')
                 return;

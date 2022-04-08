@@ -8,9 +8,11 @@ from models.User import User, UserTracking
 from resources.response.error.CommonError import EmptyRequestBodyError, MissingRequiredFieldsError, ExtraFieldsError
 from resources.response.error.Error import Error
 from resources.response.error.UserError import UserEmailTakenError, UserNotFoundError
+from resources.response.error.AuthError import InvalidAuthFieldValueError
 from resources.response.success.AuthSuccess import LoginUserSuccess, RegisterUserSuccess
 from resources.CommonHelperFunctions import check_for_extra_keys, check_for_missing_required_keys
 import datetime
+from resources.CommonHelperFunctions import validate_login_fields, validate_registration_fields
 
 class UserRegisterApi(Resource):
     def post(self):
@@ -26,6 +28,9 @@ class UserRegisterApi(Resource):
             extra_keys = check_for_extra_keys(accepted_keys, request_body)
             if (len(extra_keys) > 0):
                 return ExtraFieldsError(extra_keys=extra_keys).GetError()
+            validate_fields = validate_registration_fields(requestBody=request_body)
+            if validate_fields is not None:
+                return InvalidAuthFieldValueError(fields=validate_fields).GetError()
             existing_user = db.session.get(User, request_body["email"])
             if existing_user is not None:
                 return UserEmailTakenError().GetError()
@@ -65,6 +70,9 @@ class UserLoginApi(Resource):
             extra_keys = check_for_extra_keys(accepted_keys, request_body)
             if (len(extra_keys) > 0):
                 return ExtraFieldsError(extra_keys=extra_keys).GetError()
+            validate_fields = validate_login_fields(requestBody=request_body)
+            if validate_fields is not None:
+                return InvalidAuthFieldValueError(fields=validate_fields).GetError()
             password = request_body["password"]
             email = request_body["email"]
             user = db.session.get(User, email)

@@ -1,8 +1,8 @@
 name: Python Unittests
-on: [push, pull_request]
+on: [pull_request, push]
 
 jobs:
-  test-api:
+  seedoverflow-api:
     runs-on: ubuntu-latest
     services:
       seedoverflow-database:
@@ -33,3 +33,16 @@ jobs:
         run: |
           ./test-api.sh
         working-directory: seedoverflow-api
+  seedoverflow-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install packages
+        run: npm ci
+        working-directory: seedoverflow-client
+      - name: Build
+        run: npm run build
+        working-directory: seedoverflow-client
