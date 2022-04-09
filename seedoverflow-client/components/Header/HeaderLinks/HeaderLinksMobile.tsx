@@ -51,7 +51,7 @@ const HeaderLinksMobile = (props: props) => {
                     userLoggedIn !== undefined &&
                     !userLoggedIn &&
                     <li key={999} className="w-fit">
-                        <Button buttonText="Login" onClick={() => {router.push("/login")}}></Button>
+                        <Button buttonText="Login/Register" onClick={() => {router.push("/login")}}></Button>
                     </li>
                 }
             </ul>

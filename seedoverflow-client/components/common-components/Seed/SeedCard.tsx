@@ -27,7 +27,7 @@ const SeedCard = (props: props) => {
                             <div className="h-11 w-11 rounded-lg bg-darker-green dark:bg-turquoise"></div>
                             <div className="flex flex-col">
                                 <p className="w-[12ch] xs:w-auto overflow-hidden">{props.seed.submitted_by_username}</p>
-                                <p className="italic text-sm">{props.seed.seed_creation_date && new Date(props.seed.seed_creation_date).toLocaleDateString()}</p>
+                                <p className="italic text-sm">{props.seed.seed_creation_date && new Date(props.seed.seed_creation_date).toUTCString()}</p>
                             </div>
                         </>
                     }
@@ -39,7 +39,7 @@ const SeedCard = (props: props) => {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" className="fill-darker-green dark:fill-turquoise hidden xs:block">
                                     <circle cx="2" cy="2" r="2" />
                                 </svg>
-                                <p className="italic text-sm">{props.seed.seed_creation_date && new Date(props.seed.seed_creation_date).toLocaleDateString()}</p>
+                                <p className="italic text-sm">{props.seed.seed_creation_date && new Date(props.seed.seed_creation_date).toUTCString()}</p>
                             </div>
                         </>
                     }

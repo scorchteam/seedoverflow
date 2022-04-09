@@ -8,9 +8,10 @@ import { ErrorResponse, handleResponseError } from '../components/ResponseHandli
 import { ToastStore } from '../components/Toast'
 import { ThemeStore } from '../components/Theme'
 import { GetSeedsPromise, Seed, SeedStore } from '../components/Seed'
+import { useRouter } from 'next/router'
 
-// export const API_URL = "http://localhost:5000/api/v1"
-export const API_URL = "https://seedoverflow-prod-api.herokuapp.com/api/v1";
+export const API_URL = "http://localhost:5000/api/v1"
+// export const API_URL = "https://seedoverflow-prod-api.herokuapp.com/api/v1";
 const userStore: UserStore = {
   updateUserData: (userData: User)=>{},
   updateUserAccessToken: (userAccessToken: string)=>{},
@@ -44,6 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [darkModeEnabled, updateDarkModeEnabled] = useState<boolean>();
   const [seeds, applySeeds] = useState<Seed[]>([]);
   const [seedStoreUpdateTime, updateSeedStoreUpdateTime] = useState<Date>();
+  const router = useRouter();
 
   const toastStyles = `bg-green text-light-text dark:bg-dark-comp dark:text-dark-text`;
 
@@ -67,6 +69,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             localStorage.removeItem("token")
             return
           }
+          if (Object.keys(data).includes("msg")) {
+            if (data["msg"] === "Signature verification failed")
+                return
+          }
         } else {
           toastError("An unknown error occured");
           return
@@ -88,7 +94,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         if (data) {
           const responseError = handleResponseError(data, toastError);
           if (responseError && responseError === ErrorResponse.UserNotFoundError) {
-            logout()
+            
             return
           }
         } else {

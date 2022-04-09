@@ -33,7 +33,7 @@ const HeaderLinksDesktop = (props: props) => {
                     !logoutLoginExcludedPathnames.includes(router.pathname) &&
                     userLoggedIn !== undefined &&
                     !userLoggedIn &&
-                    <Button buttonText="Login" onClick={() => {router.push("/login")}}></Button>
+                    <Button buttonText="Login/Register" onClick={() => {router.push("/login")}}></Button>
                 }
         </ul>
     )

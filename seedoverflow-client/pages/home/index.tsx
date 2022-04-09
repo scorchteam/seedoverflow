@@ -3,6 +3,7 @@ import Container from '../../components/common-components/Container/Container'
 import SeedList from '../../components/common-components/SeedList/SeedList'
 import Spinner from '../../components/common-components/Spinner/Spinner'
 import PageGridLayout from '../../components/PageGridLayout'
+import MainSection from './MainSection'
 
 /**
  * Home page
@@ -10,16 +11,10 @@ import PageGridLayout from '../../components/PageGridLayout'
  */
 const Home: NextPage = () => {
     return (
-        <Container>
+        <Container noMargin={true}>
             <PageGridLayout
-                left={
-                    <></>
-                }
                 center={
-                    <></>
-                }
-                right={
-                    <></>
+                    <MainSection />
                 }
             />
         </Container>

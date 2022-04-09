@@ -35,7 +35,12 @@ const withAuth = (WrappedComponent: FunctionComponent) => {
                             handleBadConnection();
                         }
                     })
-                if (data && Object.keys(data).length > 0) {
+                const objKeys = Object.keys(data);
+                if (data && objKeys.length > 0) {
+                    if (objKeys.includes("msg")) {
+                        if (data["msg"] === "Signature verification failed")
+                            Router.push("/logout")
+                    }
                     if (handleResponseSuccess(data)) {
                         setVerified(true);
                         localStorage.removeItem("retry");

@@ -14,11 +14,6 @@ const Profile: NextPage = () => {
     const { toastError, toastSuccess } = useContext(ToastStoreContext);
     const { seeds, updateSeeds } = useContext(SeedStoreContext);
     const [seedListType, updateSeedListType] = useState<'minimal' | 'full'>('minimal');
-    
-
-    useEffect(() => {
-        console.log(seeds);
-    }, [seeds])
 
     const makeSeed = async () => {
         if (!userAccessToken) {
@@ -70,7 +65,6 @@ const Profile: NextPage = () => {
     }
 
     const renderSeeds = () => {
-        console.log(seeds);
         if (!seeds)
             return <></>
         let index = 0;

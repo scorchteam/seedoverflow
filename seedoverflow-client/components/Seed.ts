@@ -2,8 +2,8 @@ import { API_URL } from "../pages/_app";
 
 export interface Seed {
     seed: string,
-    submitted_by?: string,
-    seed_creation_date?: Date,
+    submitted_by: string,
+    seed_creation_date: Date,
     submitted_by_username: string
 }
 

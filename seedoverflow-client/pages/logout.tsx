@@ -28,4 +28,4 @@ const Logout: NextPage = () => {
     )
 }
 
-export default withAuth(Logout);
+export default Logout;
