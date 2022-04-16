@@ -36,8 +36,8 @@ const Profile: NextPage = () => {
                 let new_seed: Seed = {
                     seed: get_new_seed.seed,
                     seed_creation_date: new Date(),
-                    submitted_by: userData?.uuid,
-                    submitted_by_username: userData?.username ?? "undefined"
+                    submitted_by: userData?.uuid ?? "unknown",
+                    submitted_by_username: userData?.username ?? "unknown"
                 }
                 new_seed_array.push(new_seed)
                 updateSeeds([...new_seed_array]);
