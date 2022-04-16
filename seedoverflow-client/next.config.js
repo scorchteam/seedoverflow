@@ -3,6 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["cdnb.artstation.com"]
+  },
+  env: {
+    ENV: process.env.NODE_ENV,
+    DEV_API: process.env.DEV_API,
+    PROD_API: process.env.PROD_API
   }
 }
 

@@ -9,6 +9,8 @@ services:
       - node-modules:/src/node_modules
     environment:
       - NODE_ENV=development
+      - DEV_API=http://localhost:5000/api/v1
+      - PROD_API=https://seedoverflow-prod-api.herokuapp.com/api/v1
     ports:
       - '3000:3000'
     depends_on:

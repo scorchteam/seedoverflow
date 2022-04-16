@@ -10,8 +10,8 @@ import { ThemeStore } from '../components/Theme'
 import { GetSeedsPromise, Seed, SeedStore } from '../components/Seed'
 import { useRouter } from 'next/router'
 
-export const API_URL = "http://localhost:5000/api/v1"
-// export const API_URL = "https://seedoverflow-prod-api.herokuapp.com/api/v1";
+export const API_URL = process.env.NODE_ENV === "development" ? process.env.DEV_API : process.env.PROD_API;
+
 const userStore: UserStore = {
   updateUserData: (userData: User)=>{},
   updateUserAccessToken: (userAccessToken: string)=>{},
