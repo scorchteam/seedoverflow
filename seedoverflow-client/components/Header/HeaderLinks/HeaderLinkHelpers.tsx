@@ -10,7 +10,8 @@ interface navLinksProps {
 export interface HeaderLink {
     linkText: string,
     href: string,
-    needAuth: boolean
+    needAuth?: boolean,
+    unilateral?: boolean
 }
 
 export const logoutLoginExcludedPathnames = ["/logout", "/login"];
@@ -22,10 +23,12 @@ export const logoutLoginExcludedPathnames = ["/logout", "/login"];
  */
 export const renderNavLinks = (props: navLinksProps) => {
     const navLinksRendered = props.linkTextArray.map((headerLink, index) => {
-        if (props.userLoggedIn !== undefined && !props.userLoggedIn && headerLink.needAuth)
-            return
-        if (props.userLoggedIn !== undefined && props.userLoggedIn && !headerLink.needAuth)
-            return
+        if (!headerLink.unilateral) {
+            if (props.userLoggedIn !== undefined && !props.userLoggedIn && headerLink.needAuth)
+                return
+            if (props.userLoggedIn !== undefined && props.userLoggedIn && !headerLink.needAuth)
+                return
+        }
         return <li key={index} className="w-fit"><NavLink href={`/${headerLink.href}`} linkText={headerLink.linkText}/></li>
     });
     return navLinksRendered;

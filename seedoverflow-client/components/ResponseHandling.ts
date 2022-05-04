@@ -3,7 +3,8 @@ export enum SuccessResponse {
     Success = "Success",
     RegisterUserSuccess = "RegisterUserSuccess",
     LoginUserSuccess = "LoginUserSuccess",
-    UserIsAuthenticated = "UserIsAuthenticated"
+    UserIsAuthenticated = "UserIsAuthenticated",
+    UserUpdateSuccess = "UserUpdateSuccess"
 }
 
 /** Possible errors thrown by API */
@@ -43,6 +44,8 @@ export const handleResponseSuccess = (response: any, toastSuccess: Function | un
             return SuccessResponse.LoginUserSuccess;
         case SuccessResponse.UserIsAuthenticated:
             return SuccessResponse.UserIsAuthenticated;
+        case SuccessResponse.UserUpdateSuccess:
+            return SuccessResponse.UserUpdateSuccess;
     }
     return undefined;
 }

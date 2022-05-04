@@ -14,7 +14,7 @@ interface props {
 const FormikTextInput = (props: props) => {
     const { name, onChange, value, type, error, required, onBlur, touched } = props;
     return (
-        <>
+        <div className="flex flex-col">
             <label htmlFor={name} className="capitalize">{name.replaceAll('_', ' ')}{required && <div className="text-danger inline"> (Required)</div>}</label>
             <input
                 className="customInput"
@@ -28,7 +28,7 @@ const FormikTextInput = (props: props) => {
                 error &&
                 <p className="text-danger text-center">{touched && error}</p>
             }
-        </>
+        </div>
     )
 }
 

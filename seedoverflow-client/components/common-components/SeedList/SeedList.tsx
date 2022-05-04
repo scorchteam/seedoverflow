@@ -3,7 +3,7 @@ import SeedCard from "../../../components/common-components/Seed/SeedCard"
 import { Seed } from "../../Seed"
 interface props {
     seedList: Seed[],
-    listType: 'minimal' | 'full',
+    listType?: 'minimal' | 'full',
     onClickDelete?: any,
     sortBy?: 'dateAscending' | 'dateDescending'
 }

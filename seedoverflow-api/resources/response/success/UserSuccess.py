@@ -5,3 +5,9 @@ class DeletingUserSuccess(Success):
         self.status_code = status_code
         self.description = description
         self.title = self.__class__.__name__
+
+class UserUpdateSuccess(Success):
+    def __init__(self, status_code="200", description="User updated successfully"):
+        self.status_code = status_code
+        self.description = description
+        self.title = self.__class__.__name__

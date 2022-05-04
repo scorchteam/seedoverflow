@@ -47,6 +47,22 @@ def validate_registration_fields(requestBody=None):
     if retErrors != {}:
         return None
     return retErrors
+
+def validate_user_update_fields(requestBody=None):
+    error = {}
+    if requestBody is None:
+        return {'Error': 'Error'}
+    if "username" in requestBody:
+        error["username"] = validate_username_field(requestBody["username"])
+    if "email" in requestBody:
+        error["email"] = validate_email_field(requestBody["email"])
+    if "first_name" in requestBody:
+        error["first_name"] = validate_name_field(requestBody["first_name"])
+    if "last_name" in requestBody:
+        error["last_name"] = validate_name_field(requestBody["last_name"])
+    if error != {}:
+        return None
+    return error
     
 def validate_login_fields(requestBody=None):
     error = {}
@@ -102,3 +118,22 @@ def validate_name_field(name):
     if len(name) > 64:
         return "Name field must be 64 characters or less"
     return None
+
+def update_user_object(user, update_values=None):
+    if user is None:
+        return None
+    if update_values is None:
+        return user
+    if "username" in update_values:
+        user.username = update_values["username"]
+    if "first_name" in update_values:
+        if update_values["first_name"] == "":
+            user.first_name = None
+        else:
+            user.first_name = update_values["first_name"]
+    if "last_name" in update_values:
+        if update_values["last_name"] == "":
+            user.last_name = None
+        else:
+            user.last_name = update_values["last_name"]
+    return user

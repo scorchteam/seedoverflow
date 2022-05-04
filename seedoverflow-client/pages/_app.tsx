@@ -124,6 +124,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     applyUserAccessToken("");
     applyUserData(undefined);
     applyUserLoggedIn(false);
+    applySeeds([]);
     localStorage.removeItem("token");
     toastSuccess("Logged out successfully!")
   }
