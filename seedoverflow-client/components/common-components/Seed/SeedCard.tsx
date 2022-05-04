@@ -8,7 +8,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface props {
     seed: Seed,
-    listType: "minimal" | "full",
+    listType?: "minimal" | "full",
     onClickDelete?: any,
     onClickEdit?: any
 }
