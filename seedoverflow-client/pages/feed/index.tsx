@@ -36,10 +36,11 @@ const Feed: NextPage = () => {
     }
 
     const renderTrendingSeeds = () => {
+        let key = 0;
         if (!trendingSeeds)
             return <></>
         return trendingSeeds.map((seed, index) => {
-            return <p>{seed.seed}</p>
+            return <p key={key}>{seed.seed}</p>
         })
     }
 
