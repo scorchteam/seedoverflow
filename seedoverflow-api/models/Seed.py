@@ -1,6 +1,6 @@
 from email.policy import default
 from enum import unique
-from tkinter import CASCADE
+from  import CASCADE
 from db import db
 import datetime
 from sqlalchemy import Column, String, ForeignKey, DateTime, JSON, ARRAY
