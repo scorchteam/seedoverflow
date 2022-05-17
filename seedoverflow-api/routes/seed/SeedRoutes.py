@@ -1,3 +1,4 @@
+from random import seed
 from flask_restful import Resource, request
 from models.Seed import Seed
 from models.User import User
@@ -9,7 +10,7 @@ from resources.response.error.UserError import UserNotFoundError
 from resources.CommonHelperFunctions import check_for_extra_keys, check_for_missing_required_keys
 from resources.response.success.SeedSuccess import DeletingSeedSuccess, AddNewSeedSuccess, GetSeedsSuccess
 from db import db
-from resources.CommonHelperFunctions import validate_seed
+from resources.CommonHelperFunctions import validate_seed, validate_seed_body
 
 required_seed_post_body_keys = ["seed"]
 
@@ -18,15 +19,25 @@ class SeedApi(Resource):
     def post(self):
         try:
             request_body = request.get_json()
+            #Check for request body
             if request_body is None:
                 return EmptyRequestBodyError().GetError()
-            accepted_keys = ["seed"]
+            #Validate body keys
+            accepted_keys = ["seed", "flairs", "imageLinks"]
             keys_not_found = check_for_missing_required_keys(required_seed_post_body_keys, request_body)
             if (len(keys_not_found) > 0):
                 return MissingRequiredFieldsError(missing_keys=keys_not_found).GetError()
             extra_keys = check_for_extra_keys(accepted_keys, request_body)
             if len(extra_keys) > 0:
                 return ExtraFieldsError(extra_keys=extra_keys).GetError()
+            #validate body key values
+            print("here", flush=True)
+            validate_errors = validate_seed_body(request_body)
+            print("after valid", flush=True)
+            if validate_errors != {}:
+                return InvalidSeedError().GetError()
+            print("here", flush=True)
+            #Check for duplicates
             check_for_dup_seed = db.session.get(Seed, request_body["seed"])
             if check_for_dup_seed is not None:
                 return SeedAlreadyDefinedError().GetError()
@@ -39,6 +50,7 @@ class SeedApi(Resource):
             db.session.commit()
             return AddNewSeedSuccess(seed=new_seed.seed).GetSuccess()
         except Exception as e:
+            print(e, flush=True)
             return Error().GetError()
 
 class SeedsApi(Resource):
@@ -58,6 +70,18 @@ class SeedsApi(Resource):
             return GetSeedsSuccess(seeds=seeds_raw_objs).GetSuccess()
         except Exception as e:
             return Error().GetError()
+    @jwt_required()
+    def delete(self):
+        try:
+            user_email = get_jwt_identity()
+            userObj = db.session.get(User, user_email)
+            seeds = Seed.query.filter_by(submitted_by=userObj.uuid)
+            for seed in seeds:
+                db.session.delete(seed)
+            db.session.commit()
+            return DeletingSeedSuccess().GetSuccess()
+        except Exception as e:
+            return Error().GetError()
 
 class RecentSeedsApi(Resource):
     def get(self, id):
@@ -66,15 +90,15 @@ class RecentSeedsApi(Resource):
                 .join(User, Seed.submitted_by==User.uuid)\
                 .add_columns(User.username)\
                 .order_by(Seed.seed_creation_date.desc())\
-                .paginate()
+                .paginate(per_page=8)
             for x in range(1, int(id)):
                 seedList = seedList.next()
             final_seeds = []
             print(len(seedList.items), flush=True)
             for seed in seedList.items:
                 new_seed = {
-                    "seed": seed.Seed.seed,
-                    "submitted_by": seed.username
+                    **seed.Seed.get_seed_object(),
+                    "submitted_by_username": seed.username
                 }
                 final_seeds.append(new_seed)
             return final_seeds

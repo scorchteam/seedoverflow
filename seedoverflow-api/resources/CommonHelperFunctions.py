@@ -1,4 +1,7 @@
+from distutils.log import error
 import re
+from models.SeedAttributes import SeedAttribute
+from urllib.parse import urlparse
 
 def check_for_missing_required_keys(required_keys=[], provided_keys={}):
     keys_not_found = []
@@ -18,6 +21,13 @@ def check_for_extra_keys(accepted_keys=[], provided_keys={}):
             extra_keys.append(key)
     return extra_keys
 
+def validate_url(url):
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except ValueError:
+        return False
+
 def validate_seed(seed):
     if seed is None:
         return False
@@ -28,6 +38,40 @@ def validate_seed(seed):
     if is_seed_alphanumeric is not True:
         return False
     return True
+
+def validate_seed_flairs(flairs=[]):
+    if flairs == []:
+        return True
+    if flairs is None:
+        return False
+    for key in flairs:
+        print(key, flush=True)
+        if key in SeedAttribute:
+            return False
+    return True
+
+def validate_seed_image_links(imageLinks=[]):
+    if imageLinks == []:
+        return True
+    if imageLinks is None:
+        return False
+    for key in imageLinks:
+        if validate_url(key) is not True:
+            return False
+    return True
+
+def validate_seed_body(request_body):
+    if request_body is None or request_body == {}:
+        return False
+    errors = {}
+    if validate_seed(request_body["seed"]) is not True:
+        errors["seed"] = "Invalid seed value"
+    if "flairs" in request_body and validate_seed_flairs(request_body["flairs"]) is not True:
+        errors["flairs"] = "Invalid flair values"
+    if "imageLinks" in request_body and validate_seed_image_links(request_body["imageLinks"]) is not True:
+        errors["imageLinks"] = "Invalid image links"
+    print(errors, flush=True)
+    return errors
 
 def validate_registration_fields(requestBody=None):
     error = {}

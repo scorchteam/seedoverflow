@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import { useContext } from "react"
 import { ToastStoreContext, UserStoreContext } from "../../../pages/_app"
-import { Seed } from "../../Seed"
+import { createSeedTag, Seed } from "../../Seed"
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import PictureWheel, { PictureWheelSlide } from "../PictureWheel/PictureWheel"
+import SeedTag from "./SeedTag"
+import { SeedTagEnum } from "../../Seed";
 
 interface props {
     seed: Seed,
@@ -16,6 +19,20 @@ interface props {
 const SeedCard = (props: props) => {
     const { userData } = useContext(UserStoreContext);
     const { toastSuccess } = useContext(ToastStoreContext);
+
+    const generatePictureSlides = () => {
+        let slides : PictureWheelSlide[] = [];
+        for (let x = 0; x < 10; x++) {
+            let newPicWidth = Math.floor((Math.random() * (240 - 100) + 100) * 6);
+            let newPicHeight = Math.floor(newPicWidth * .5625);
+            slides.push({
+                imageLink: `https://source.unsplash.com/random/${newPicWidth}x${newPicHeight}`,
+                description: `New Random Image: ${x}`
+            })
+        }
+        return slides;
+    }
+    const pictureWheelSlides = generatePictureSlides();
 
     return (
         <li className="group w-full will-change-transform flex flex-col items-center justify-center">
@@ -46,7 +63,19 @@ const SeedCard = (props: props) => {
                 </div>
                 {
                     props.listType === "full" &&
-                    <img className="w-full max-h-96 object-cover" src={"/seedcard.jpg"} />
+                    <div className="w-full h-auto aspect-video">
+                        <PictureWheel slides={pictureWheelSlides} />
+                    </div>
+                }
+                {
+                    props.listType === "full" &&
+                    <div className="w-full h-auto flex flex-wrap gap-1 bg-dark-comp px-3 pt-3">
+                        <SeedTag seedTag={createSeedTag(SeedTagEnum.Mountain)} />
+                        <SeedTag seedTag={createSeedTag(SeedTagEnum.Desert)} />
+                        <SeedTag seedTag={createSeedTag(SeedTagEnum.Flat)} />
+                        <SeedTag seedTag={createSeedTag(SeedTagEnum.Ocean)} />
+                        <SeedTag seedTag={createSeedTag(SeedTagEnum.Stronghold)} />
+                    </div>
                 }
                 <div className="seed-card-body px-3 pb-3 mt-3 w-full max-w-[calc(100vw-16px)] md:max-w-full">
                     <CopyToClipboard
@@ -61,27 +90,18 @@ const SeedCard = (props: props) => {
                     </CopyToClipboard>
                 </div>
             </div>
-            {/* {
-                userData?.username &&
-                userData.username === props.seed.submitted_by_username &&
-                <div className="bg-turquoise hidden md:block w-[99%] -mt-10 group-hover:-mt-2 rounded-b-lg p-1 pt-2 pb-0 text-center bold transition-all ease-in-out duration-150 cursor-pointer">
-                    Edit
+            {
+                props.seed.submitted_by === userData?.uuid &&
+                <div className="absolute right-0 top-0 w-auto h-auto flex bg-danger rounded-tr-lg rounded-bl-lg">
+                    <div className="bg-darker-green dark:bg-turquoise p-1 px-2 rounded-bl-lg cursor-pointer">
+                        <FontAwesomeIcon icon={faEdit} className='text-light dark:text-dark'/>
+                    </div>
+                    <div className="p-1 px-2 rounded-tr-lg cursor-pointer" onClick={() => props.onClickDelete(props.seed.seed)}>
+                        <FontAwesomeIcon icon={faTrash} className='text-light dark:text-dark' />
+                    </div>
                 </div>
-            } */}
-            <div className="absolute right-0 top-0 w-auto h-auto flex bg-danger rounded-tr-lg rounded-bl-lg">
-                <div className="bg-darker-green dark:bg-turquoise p-1 px-2 rounded-bl-lg cursor-pointer">
-                    <FontAwesomeIcon icon={faEdit} className='text-light dark:text-dark'/>
-                </div>
-                <div className="p-1 px-2 rounded-tr-lg cursor-pointer" onClick={() => props.onClickDelete(props.seed.seed)}>
-                    <FontAwesomeIcon icon={faTrash} className='text-light dark:text-dark' />
-                </div>
-            </div>
-            {/* <div className="absolute right-0 top-0 z-100 p-1 w-16 bg-turquoise rounded-tr-lg rounded-bl-lg justify-center items-center text-center bold transition-all ease-in-out duration-150 cursor-pointer flex md:hidden scale-x-0 group-hover:scale-x-100 origin-right">
-                Edit
-            </div>
-            <div className="absolute right-0 bottom-0 z-100 p-1 w-16 bg-danger rounded-br-lg rounded-tl-lg justify-center items-center text-center bold transition-all ease-in-out duration-150 cursor-pointer flex md:hidden scale-x-0 group-hover:scale-x-100 origin-right">
-                Delete
-            </div> */}
+            }
+            
         </li>
     )
 }

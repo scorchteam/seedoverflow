@@ -48,7 +48,11 @@ module.exports = {
       'water-1': '#8ed1fd',
       'water-2': '#5682BA',
       'water-3': '#344982',
-      'water-4': '#1D2352'
+      'water-4': '#1D2352',
+      'black': '#000000',
+      'transparent': '#00000000',
+      'tan': '#D2B48C',
+      'gray': '#808080',
     }
   },
   plugins: [],

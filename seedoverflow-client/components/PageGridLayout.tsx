@@ -24,7 +24,7 @@ const PageGridLayout = (props: props) => {
                 center !== undefined &&
                 right !== undefined &&
                 left === undefined &&
-                <div className="mt-4 grid grid-cols-[1fr] grid-rows-[1fr] md:grid-cols-[1fr_200px] md:grid-rows-[1fr] lg:grid-cols-[1fr_250px] xl:grid-cols-[1fr_350px] w-full h-full">
+                <div className={`mt-4 grid grid-cols-[1fr] grid-rows-[1fr] md:grid-cols-[1fr_200px] md:grid-rows-[1fr] lg:grid-cols-[1fr_250px] xl:grid-cols-[1fr_350px] w-full h-full ${props.gap ? 'gap-8' : ''}`}>
                     <section>{center}</section>
                     <section className="hidden lg:block">{right}</section>
                 </div>

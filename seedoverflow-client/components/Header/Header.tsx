@@ -13,7 +13,7 @@ import { UserStoreContext } from "../../pages/_app";
  */
 const Header = () => {
   //State
-  const [navLinks] = useState<HeaderLink[]>([{linkText: "Feed", href: "/feed", unilateral: true}, {linkText: "Profile", needAuth: true, href: "profile"}, {linkText: "Home", needAuth: false, href: ""}]);
+  const [navLinks] = useState<HeaderLink[]>([{linkText: "Feed", href: "feed", unilateral: true}, {linkText: "Profile", needAuth: true, href: "profile"}, {linkText: "Home", needAuth: false, href: ""}]);
   const [collapsed, updateCollapsed] = useState<boolean>(true);
   const [viewWidth, updateViewWidth] = useState<number>();
 

@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
+import AnimateHeight from "react-animate-height";
 import Button from "../../components/common-components/Button/Button";
+import NewSeedForm from "../../components/common-components/Seed/NewSeedForm";
 import SeedList from "../../components/common-components/SeedList/SeedList";
 import { GetSeedPromise, NewSeedDto, PostSeedPromise, Seed } from "../../components/Seed";
 import { SeedStoreContext, ToastStoreContext, UserStoreContext } from "../_app";
@@ -15,6 +17,7 @@ const UserContent = (props: UserContentProps = {listMode: 'minimal'}) => {
     const { userAccessToken, userData } = useContext(UserStoreContext);
     const { toastError, toastSuccess } = useContext(ToastStoreContext);
     const [makingSeed, updateMakingSeed] = useState<boolean>(false);
+    const [animateHeightHeight, updateAnimateHeightHeight] = useState<number | string>(0);
 
     const makeSeed = async () => {
         if (!userAccessToken) {
@@ -48,12 +51,7 @@ const UserContent = (props: UserContentProps = {listMode: 'minimal'}) => {
     }
 
     return (
-        <div className="flex flex-col gap-2">
-            {
-                !props.unrenderAddButton &&
-                <Button buttonText="Make me a seed" onClick={makeSeed} loading={makingSeed} />
-            }
-            
+        <div className="flex flex-col gap-2">       
             {
                 seeds &&
                 <SeedList listType={props.listMode} seedList={seeds} />

@@ -1,12 +1,28 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import Button from '../../components/common-components/Button/Button'
 import Container from '../../components/common-components/Container/Container'
 import Heading from '../../components/common-components/Heading/Heading'
 import PageGridLayout from '../../components/PageGridLayout'
+import { GetRecentSeeds, Seed } from '../../components/Seed'
 import UserContent from '../profile/UserContent'
+import RecentSeeds from './RecentSeeds'
 
 const Feed: NextPage = () => {
+
+    const router = useRouter();
+    const [trendingSeeds, updateTrendingSeeds] = useState<Seed[]>([]);
+
+    useEffect(() => {
+        const getTrendingSeeds = async () => {
+            let newSeeds = await GetRecentSeeds(1)
+            .then(response => response.json())
+            updateTrendingSeeds(newSeeds as Seed[])
+        }
+        getTrendingSeeds();
+    }, [])
 
     const renderFilters = () => {
         const filters = ['Mountain', 'Flat', 'Desert', 'Ocean', 'Stronghold']
@@ -19,35 +35,35 @@ const Feed: NextPage = () => {
         return lis;
     }
 
+    const renderTrendingSeeds = () => {
+        if (!trendingSeeds)
+            return <></>
+        return trendingSeeds.map((seed, index) => {
+            return <p>{seed.seed}</p>
+        })
+    }
+
     return (
         <Container>
             <PageGridLayout
                 gap={true}
-                left={
-                    <div className='p-4 rounded-xl bg-dark-comp w-full h-auto'>
-                        <Heading type='h3'>Filters</Heading>
-                        <ul>
-                            {renderFilters()}
-                        </ul>
-                    </div>
-                }
                 center={
-                    <UserContent listMode='full' unrenderAddButton={true} />
+                    <>
+                        <Heading type='h2'>
+                            Recent Seeds
+                        </Heading>
+                        <RecentSeeds />
+                    </>
                 }
                 right={
-                    <div className='w-full h-auto flex flex-col gap-4'>
-                        <Button buttonText='Add a Seed' className='w-full' />
-                        <div className='p-4 rounded-xl w-full h-auto bg-dark-comp'>
+                    <div className='w-full h-auto flex flex-col gap-4 mt-4'>
+                        <Button onClick={() => {router.push({pathname: "/profile", query: {"tab": "makeseed"}})}} buttonText='Add a Seed' className='w-full' />
+                        {/* <div className='p-4 rounded-xl w-full h-auto bg-dark-comp'>
                             <Heading type='h3'>Trending Seeds</Heading>
                             <ul className='flex flex-col text-blue underline'>
-                                <Link href={'#'}>jfjweiofjwej</Link>
-                                <Link href={'#'}>jfjweiofjwej</Link>
-                                <Link href={'#'}>jfjweiofjwej</Link>
-                                <Link href={'#'}>jfjweiofjwej</Link>
-                                <Link href={'#'}>jfjweiofjwej</Link>
-                                <Link href={'#'}>jfjweiofjwej</Link>
+                                {renderTrendingSeeds()}
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 }
             />

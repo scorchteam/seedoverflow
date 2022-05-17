@@ -13,3 +13,15 @@ export const updateUser = async (userDetails: User, authToken: string) => {
     const url = `${API_URL}/user`
     return fetch(url, requestOptions)
 }
+
+export const DeleteUser = async (userAccessToken: string) => {
+    const requestOptions = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userAccessToken}`
+        }
+    }
+    const url = `${API_URL}/user`
+    return fetch(url, requestOptions)
+}
