@@ -66,12 +66,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         if (data) {
           const responseError = handleResponseError(data, toastError);
           if (responseError && responseError === ErrorResponse.UserNotFoundError) {
-            localStorage.removeItem("token")
+            router.push("/logout")
             return
           }
           if (Object.keys(data).includes("msg")) {
-            if (data["msg"] === "Signature verification failed")
-                return
+            if (data["msg"] === "Signature verification failed" || data["msg"] === "Token has expired") {
+              router.push("/logout")
+              return
+            }
           }
         } else {
           toastError("An unknown error occured");
@@ -92,9 +94,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       .then(response => response.json())
       .then(data => {
         if (data) {
+          if (data.hasOwnProperty('msg')) {
+            if (data?.msg === "Token has expired") {
+              router.push("/logout")
+              return
+            }
+          }
           const responseError = handleResponseError(data, toastError);
           if (responseError && responseError === ErrorResponse.UserNotFoundError) {
-            
             return
           }
         } else {

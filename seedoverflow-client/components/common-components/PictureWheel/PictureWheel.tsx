@@ -80,8 +80,8 @@ const PictureWheel = (props: PictureWheelProps) => {
                 {currentImage.description}
             </div> */}
             <div className="absolute w-full h-full top-0 left-0 grid grid-cols-[auto_1fr_auto] md:grid-cols-[100px_1fr_100px] z-40">
-                <div className="p-4 text-4xl h-full w-auto flex items-center justify-center cursor-pointer z-50 opacity-100 md:opacity-0 hover:opacity-100 bg-gradient-to-r from-dark transition-all ease-in-out duration-250" onClick={() => switchSlides(-1)}>
-                    <FontAwesomeIcon icon={faChevronLeft}></FontAwesomeIcon>
+                <div className="p-4 text-4xl h-full w-auto flex items-center justify-center cursor-pointer z-50 opacity-100 md:opacity-0 hover:opacity-100 bg-gradient-to-r from-light-comp dark:from-dark transition-all ease-in-out duration-250" onClick={() => switchSlides(-1)}>
+                    <FontAwesomeIcon className="text-dark dark:text-light-comp" icon={faChevronLeft}></FontAwesomeIcon>
                 </div>
                 <div className="w-full h-full">
                     {
@@ -99,12 +99,12 @@ const PictureWheel = (props: PictureWheelProps) => {
                     <div className=""></div>
                 </div>
                 <div className="w-full h-full z-30 flex items-end justify-end absolute">
-                    <div className="w-full h-auto p-4 hidden sm:block bg-dark/90 text-center">
+                    <div className="w-full h-auto p-4 hidden sm:block bg-light-comp/60 dark:bg-dark/90 text-center">
                         {currentImage.description}
                     </div>
                 </div>
-                <div className="p-4 text-4xl h-full w-auto flex items-center justify-center cursor-pointer z-50 opacity-100 md:opacity-0 hover:opacity-100 bg-gradient-to-l from-dark transition-all ease-in-out duration-250" onClick={() => switchSlides(1)}>
-                    <FontAwesomeIcon icon={faChevronRight}></FontAwesomeIcon>
+                <div className="p-4 text-4xl h-full w-auto flex items-center justify-center cursor-pointer z-50 opacity-100 md:opacity-0 hover:opacity-100 bg-gradient-to-l from-light-comp dark:from-dark transition-all ease-in-out duration-250" onClick={() => switchSlides(1)}>
+                    <FontAwesomeIcon className="text-dark dark:text-light-comp" icon={faChevronRight}></FontAwesomeIcon>
                 </div>
             </div>
         </div>

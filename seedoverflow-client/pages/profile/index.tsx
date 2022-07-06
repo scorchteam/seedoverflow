@@ -48,7 +48,7 @@ const Profile: NextPage = () => {
             else if (router.query.tab === "content")
                 return <UserContent />
             else if (router.query.tab === "makeseed")
-                return <div className="rounded-xl bg-dark-comp p-4">
+                return <div className="rounded-xl bg-light-comp dark:bg-dark-comp p-4">
                     <NewSeedForm />
                 </div>
         }
@@ -104,9 +104,9 @@ const Profile: NextPage = () => {
                         </div>
                         <div className="w-full mt-8">
                             <ul className="flex flex-col justify-center items-center gap-2">
-                                <li className={`cursor-pointer text-lg w-full text-center p-1 rounded-lg font-bold ${router.query.tab === 'settings' ? 'bg-darker-turquoise' : 'bg-dark-comp'}`} onClick={() => switchToTab("settings")}>Settings</li>
-                                <li className={`cursor-pointer text-lg w-full text-center p-1 rounded-lg font-bold ${router.query.tab === 'content' ? 'bg-darker-turquoise' : 'bg-dark-comp'}`} onClick={() => switchToTab("content")}>My Content</li>
-                                <li className={`cursor-pointer text-lg w-full text-center p-1 rounded-lg font-bold ${router.query.tab === 'makeseed' ? 'bg-darker-turquoise' : 'bg-dark-comp'}`} onClick={() => switchToTab("makeseed")}>Make Seed</li>
+                                <li className={`cursor-pointer text-lg w-full text-center p-1 rounded-lg font-bold ${router.query.tab === 'settings' ? 'bg-turquoise dark:bg-darker-turquoise' : 'bg-light-comp dark:bg-dark-comp'}`} onClick={() => switchToTab("settings")}>Settings</li>
+                                <li className={`cursor-pointer text-lg w-full text-center p-1 rounded-lg font-bold ${router.query.tab === 'content' ? 'bg-turquoise dark:bg-darker-turquoise' : 'bg-light-comp dark:bg-dark-comp'}`} onClick={() => switchToTab("content")}>My Content</li>
+                                <li className={`cursor-pointer text-lg w-full text-center p-1 rounded-lg font-bold ${router.query.tab === 'makeseed' ? 'bg-turquoise dark:bg-darker-turquoise' : 'bg-light-comp dark:bg-dark-comp'}`} onClick={() => switchToTab("makeseed")}>Make Seed</li>
                             </ul>
                         </div>
                     </>
@@ -115,7 +115,7 @@ const Profile: NextPage = () => {
                 center={renderProfileCenter()}
             
                 right={
-                    <div className="w-full h-auto p-4 rounded-xl bg-dark-comp flex flex-col gap-4">
+                    <div className="w-full h-auto p-4 rounded-xl bg-light-comp dark:bg-dark-comp flex flex-col gap-4">
                         <p className="font-bold text-center text-lg">Common Functions</p>
                         <div className="flex flex-col gap-2">
                             <Button onClick={() => deleteAllSeeds()} buttonText="Delete All Seeds" danger={true} className="w-full"></Button>

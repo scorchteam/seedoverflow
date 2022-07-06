@@ -43,6 +43,7 @@ module.exports = {
       'danger': '#e03d3d',
       'lava-1': '#ff250044',
       'lava-2': '#ff250066',
+      'button-disabled': '#6e1101',
       'lava-3': '#ff250088',
       'lava-4': '#ff2500ff',
       'water-1': '#8ed1fd',
