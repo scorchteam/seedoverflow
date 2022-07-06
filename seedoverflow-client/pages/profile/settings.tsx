@@ -94,7 +94,7 @@ const Settings = () => {
     })
 
     return (
-        <div className="w-full h-auto rounded-xl p-4 bg-dark-comp flex flex-col gap-4">
+        <div className="w-full h-auto rounded-xl p-4 bg-light-comp dark:bg-dark-comp flex flex-col gap-4">
             <Heading type="h3" className="font-bold text-center md:text-left">Settings</Heading>
             <form onSubmit={formik.handleSubmit} className="flex flex-col w-full gap-2">
                 <FormikTextInput
@@ -131,7 +131,6 @@ const Settings = () => {
                     <Button type={ButtonType.reset} disabled={!formik.dirty} responsive={true} buttonText="Cancel" className='w-auto' onClick={formik.resetForm} danger={true} />
                     <Button type={ButtonType.submit} disabled={!formik.dirty} responsive={true} loading={updatingUserData} buttonText="Update" className='w-auto' />
                 </div>
-                <p className='text-danger text-center'></p>
             </form>
         </div>
     )

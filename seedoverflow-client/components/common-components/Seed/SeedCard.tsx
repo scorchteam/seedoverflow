@@ -1,7 +1,7 @@
 import { faEdit, faTrash, faCopy } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { ToastStoreContext, UserStoreContext } from "../../../pages/_app"
 import { createSeedTag, Seed } from "../../Seed"
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -17,6 +17,10 @@ interface props {
 }
 
 const SeedCard = (props: props) => {
+    useEffect(() => {
+        console.log(props)
+    }, [])
+
     const { userData } = useContext(UserStoreContext);
     const { toastSuccess } = useContext(ToastStoreContext);
 
@@ -69,7 +73,7 @@ const SeedCard = (props: props) => {
                 }
                 {
                     props.listType === "full" &&
-                    <div className="w-full h-auto flex flex-wrap gap-1 bg-dark-comp px-3 pt-3">
+                    <div className="w-full h-auto flex flex-wrap gap-1 bg-light-comp dark:bg-dark-comp px-3 pt-3">
                         <SeedTag seedTag={createSeedTag(SeedTagEnum.Mountain)} />
                         <SeedTag seedTag={createSeedTag(SeedTagEnum.Desert)} />
                         <SeedTag seedTag={createSeedTag(SeedTagEnum.Flat)} />

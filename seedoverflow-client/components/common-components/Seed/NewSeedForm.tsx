@@ -69,7 +69,7 @@ const NewSeedForm = () => {
                 onBlur={formik.handleBlur}
                 touched={formik.touched.seed} />
             <div className='mt-4 max-w-[12rem] w-full mx-auto'>
-                <Button type={ButtonType.submit} buttonText="Submit" className='w-full' />
+                <Button type={ButtonType.submit} buttonText="Submit" disabled={!formik.dirty} className='w-full' />
             </div>
         </form>
     )
