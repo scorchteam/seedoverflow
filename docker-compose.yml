@@ -30,6 +30,17 @@ services:
       - "5000:5000"
     depends_on:
       - seedoverflow-database
+  seedoverflow-node-api:
+    build: ./seedoverflow-node-api
+    restart: always
+    env_file:
+      - ./seedoverflow-node-api/.env
+    ports:
+      - "5005:5005"
+    depends_on:
+      - seedoverflow-database
+    volumes:
+      - ./seedoverflow-node-api:/user/src/app
   seedoverflow-database:
     image: postgres
     restart: always
